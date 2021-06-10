@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UIUsers</class>
+ <widget class="QDialog" name="UIUsers">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>457</width>
+    <height>533</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Utilisateurs</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Infos. réquises</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="nomLabel">
+          <property name="text">
+           <string>Nom : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="nomLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="emailLabel">
+          <property name="text">
+           <string>Email : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="emailLineEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="motDePasseLabel">
+          <property name="text">
+           <string>Mot de passe : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="motDePasseLineEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Préférences</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="telephoneLabel">
+          <property name="text">
+           <string>Telephone : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="telephoneLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="latitudeLabel">
+          <property name="text">
+           <string>Latitude : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="latitudeLineEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="longitudeLabel">
+          <property name="text">
+           <string>Longitude : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="longitudeLineEdit"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="zoomLabel">
+          <property name="text">
+           <string>Zoom : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="zoomLineEdit"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="formatHeure12HLabel">
+          <property name="text">
+           <string>Format heure 12H : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="formatHeure12HCheckBox"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Permissions</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="desactiveLabel">
+          <property name="text">
+           <string>Desactive : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="desactiveCheckBox"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="administrateurLabel">
+          <property name="text">
+           <string>Administrateur : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="administrateurCheckBox"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lectureSeuleLabel">
+          <property name="text">
+           <string>Lecture seule : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="lectureSeuleCheckBox"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="appareilLectureSeuleLabel">
+          <property name="text">
+           <string>Appareil-Lecture seule : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QCheckBox" name="appareilLectureSeuleCheckBox"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="expirationLabel">
+          <property name="text">
+           <string>Expiration : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDateTimeEdit" name="expirationDateTimeEdit"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="limiteDAppareilsLabel">
+          <property name="text">
+           <string>Limite d'appareils : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="limiteDAppareilsSpinBox"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="limiteDUtilisateursLabel">
+          <property name="text">
+           <string>Limite d'utilisateurs : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="limiteDUtilisateursSpinBox"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="tokenLabel">
+          <property name="text">
+           <string>Token : </string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="tokenLineEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="validerButton">
+       <property name="text">
+        <string>Valider</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="annulerButton">
+       <property name="text">
+        <string>Annuler</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

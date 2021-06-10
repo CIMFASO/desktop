@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UsersRights</class>
+ <widget class="QDialog" name="UsersRights">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>607</width>
+    <height>449</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Droits Utilisateurs</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1">
+   <item>
+    <layout class="QVBoxLayout" name="mainLayout"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

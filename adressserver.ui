@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdressServer</class>
+ <widget class="QDialog" name="AdressServer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>336</width>
+    <height>170</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Adresse Serveur</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLineEdit {
+  background-color: rgba(252,252,252,255);
+  padding-top: 2px;
+  /* This QLineEdit fix  103, 111 */
+  padding-bottom: 2px;
+  /* This QLineEdit fix  103, 111 */
+  padding-left: 4px;
+  padding-right: 4px;
+  border-style: solid;
+  font-size: 14px;
+  border: 1px solid rgba(50,65,75,150);
+  border-radius: 4px;
+  color: rgba(25,35,45,255);
+}
+
+
+QLabel {
+  background-color: rgba(252,252,252,0);
+  border: 0px solid rgba(50,65,75,150);
+  padding: 2px;
+  margin: 0px;
+  font-size: 14px;
+  color: rgba(25,35,45,255);
+}
+
+QLabel:disabled {
+  background-color: rgba(252,252,252,0);
+  border: 0px solid rgba(50,65,75,150);
+  color: rgba(120,120,120,255);
+}
+
+
+QLineEdit:disabled {
+  background-color: rgba(252,252,252,255);
+  color: rgba(120,120,120,255);
+}
+
+QLineEdit:hover {
+  border: 1px solid rgba(20,140,210,255);
+  color: rgba(25,35,45,255);
+}
+
+QLineEdit:focus {
+  border: 1px solid rgba(20,160,160,255);
+}
+
+QLineEdit:selected {
+  background-color: rgba(20,160,160,255);
+  color: rgba(50,65,75,150);
+}
+
+QPushButton {
+  background-color: rgba(20,140,160,255);
+  border: 1px solid rgba(50,65,75,150);
+  color: rgba(255,255,255,255);
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 3px;
+  outline: none;
+  /* Issue #194 - Special case of QPushButton inside dialogs, for better UI */
+  min-width: 80px;
+}
+
+QPushButton:disabled {
+  background-color: rgba(20,160,160,255);
+  border: 1px solid rgba(50,65,75,150);
+  color: rgba(120,120,120,255);
+  border-radius: 4px;
+  padding: 3px;
+}
+
+QPushButton:checked {
+  background-color: rgba(20,160,160,255);
+  border: 1px solid rgba(50,65,75,150);
+  border-radius: 4px;
+  padding: 3px;
+  outline: none;
+}
+
+QPushButton:checked:disabled {
+  background-color: rgba(252,252,252,255);
+  border: 1px solid rgba(50,65,75,150);
+  color: rgba(120,120,120,255);
+  border-radius: 4px;
+  padding: 3px;
+  outline: none;
+}
+
+QPushButton:checked:selected {
+  background: rgba(20,160,160,255);
+  color: rgba(50,65,75,150);
+}
+
+QPushButton::menu-indicator {
+  subcontrol-origin: padding;
+  subcontrol-position: bottom right;
+  bottom: 4px;
+}
+
+QPushButton:pressed {
+  background-color: rgba(252,252,252,255);
+  border: 1px solid rgba(252,252,252,255);
+}
+
+QPushButton:pressed:hover {
+  border: 1px solid rgba(20,140,210,255);
+}
+
+QPushButton:hover {
+  border: 1px solid rgba(20,140,210,255);
+  color: rgba(25,35,45,255);
+}
+
+QPushButton:selected {
+  background: rgba(20,160,160,255);
+  color: rgba(50,65,75,150);
+}
+
+QPushButton:hover {
+  border: 1px solid rgba(20,140,210,255);
+  color: rgba(25,35,45,255);
+}
+
+QPushButton:focus {
+  border: 1px solid rgba(20,160,160,255);
+}
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="iPAdressLabel">
+       <property name="text">
+        <string>Adresse IP  : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="serverIPLineEdit">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="portLabel">
+       <property name="text">
+        <string>Port : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="portLineEdit">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="testResultLabel">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="validerButton">
+       <property name="text">
+        <string>Valider</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="testButton">
+       <property name="text">
+        <string>Tester la connexion</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="quitterButton">
+       <property name="text">
+        <string>Quitter</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

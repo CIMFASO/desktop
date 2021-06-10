@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UITransporteur</class>
+ <widget class="QDialog" name="UITransporteur">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>298</width>
+    <height>231</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Transporteur</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="codeLabel">
+       <property name="text">
+        <string>Code : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="codeLineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="nomLabel">
+       <property name="text">
+        <string>Nom Transp.: </string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="nomLineEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="typeTranspLabel">
+       <property name="text">
+        <string>Type transp. : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="typeTranspComboBox">
+       <item>
+        <property name="text">
+         <string>PARTICULIER</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>FLOTTE</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="telephoneLabel">
+       <property name="text">
+        <string>Telephone : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="telephoneLineEdit"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="tVALabel">
+       <property name="text">
+        <string>TVA : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QCheckBox" name="tVACheckBox"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="bICLabel">
+       <property name="text">
+        <string>BIC : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QCheckBox" name="bICCheckBox"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="rETNATLabel">
+       <property name="text">
+        <string>RET NAT. : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QCheckBox" name="rETNATCheckBox"/>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="rETINTLabel">
+       <property name="text">
+        <string>RET INT. :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QCheckBox" name="rETINTCheckBox"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="validerButton">
+       <property name="text">
+        <string>Valider</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="annulerButton">
+       <property name="text">
+        <string>Annuler</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

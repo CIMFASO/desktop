@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOutils">
+    <property name="title">
+     <string>Outils</string>
+    </property>
+    <addaction name="actionListe_des_B_L"/>
+    <addaction name="actionFactures"/>
+    <addaction name="actionTaille_de_police"/>
+   </widget>
+   <widget class="QMenu" name="menuAide">
+    <property name="title">
+     <string>Aide</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuParam_trage">
+    <property name="title">
+     <string>Paramétrage</string>
+    </property>
+    <addaction name="actionTransporteur"/>
+    <addaction name="actionDestination"/>
+   </widget>
+   <addaction name="menuOutils"/>
+   <addaction name="menuParam_trage"/>
+   <addaction name="menuAide"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionListe_des_B_L"/>
+  </widget>
+  <action name="actionListe_des_B_L">
+   <property name="text">
+    <string>Liste des B.L</string>
+   </property>
+  </action>
+  <action name="actionTaille_de_police">
+   <property name="text">
+    <string>Taille de police</string>
+   </property>
+  </action>
+  <action name="actionTransporteur">
+   <property name="text">
+    <string>Transporteur</string>
+   </property>
+  </action>
+  <action name="actionDestination">
+   <property name="text">
+    <string>Destination</string>
+   </property>
+  </action>
+  <action name="actionFactures">
+   <property name="text">
+    <string>Factures</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
