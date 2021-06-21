@@ -9,7 +9,7 @@ QByteArray FilesUtils::buildFileString(QList<QUrl> urls)
 {
     QString bound="margin";
     QByteArray data = "";
-    data.append("Content-Type: multipart/form-data; boundary=\""+bound+"\"\r\n\r\n"); //data type
+    data.append(QString("Content-Type: multipart/form-data; boundary=\""+bound+"\"\r\n\r\n").toUtf8()); //data type
     data.append(QString("--" + bound + "\r\n").toUtf8());
     data.append("Content-Disposition: form-data; name=\"codePatient\"\r\n\r\n");
     data.append("000013\r\n");
@@ -19,8 +19,8 @@ QByteArray FilesUtils::buildFileString(QList<QUrl> urls)
         //path.append("\\\\");
         //path.append(url.fileName());
         data.append(QString("--" + bound + "\r\n").toUtf8());
-        data.append("Content-Disposition: form-data; name=\"uploaded[]\"; filename=\"");
-        data.append(url.fileName());
+        data.append(QString("Content-Disposition: form-data; name=\"uploaded[]\"; filename=\"").toUtf8());
+        data.append(QString(url.fileName()).toUtf8());
         data.append("\"\r\n");
 
         QFile file(path);

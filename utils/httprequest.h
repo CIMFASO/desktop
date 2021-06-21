@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QHttpMultiPart>
+//#include <QHttpMultiPart>
 #include <QJsonObject>
 #include <QObject>
 #include <QMap>

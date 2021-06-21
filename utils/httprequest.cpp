@@ -21,7 +21,7 @@ void HttpRequest::get(const QString &adresse)
 {
     QUrl url = QUrl(adresse);
     QNetworkRequest request;
-    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
     request.setUrl(url);
     QNetworkReply *reply = manager->get(request);
@@ -37,7 +37,7 @@ void HttpRequest::put(const QString &adresse, const QByteArray &data)
 {
     QUrl url = QUrl(adresse);
     QNetworkRequest request;
-    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
     request.setUrl(url);
     QNetworkReply *reply = manager->put(request,data);
@@ -53,7 +53,7 @@ void HttpRequest::deleteRessource(const QString &adresse)
 {
     QUrl url = QUrl(adresse);
     QNetworkRequest request;
-    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
     request.setUrl(url);
     QNetworkReply *reply = manager->deleteResource(request);
@@ -69,7 +69,7 @@ void HttpRequest::post(const QString &adresse, QByteArray params,QString header)
 {
     QUrl url = QUrl(adresse);
     QNetworkRequest request;
-    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     request.setHeader(QNetworkRequest::ContentTypeHeader,header);
     request.setUrl(url);
     QNetworkReply *reply = manager->post(request,params);
@@ -83,9 +83,9 @@ void HttpRequest::post(const QString &adresse, QByteArray params,QString header)
 
 void HttpRequest::post(const QString &adresse, QHttpMultiPart  *multipart)
 {
-    QUrl url = QUrl(adresse);
+    /*QUrl url = QUrl(adresse);
     QNetworkRequest request(url);
-    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    //request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     QNetworkReply *reply = manager->post(request,multipart);
     multipart->setParent(reply);
     if(!getReplies().contains(adresse))
@@ -94,7 +94,7 @@ void HttpRequest::post(const QString &adresse, QHttpMultiPart  *multipart)
         connect(reply,&QNetworkReply::uploadProgress,this,&HttpRequest::uploadProgress);
         connect(reply,&QNetworkReply::finished, [=]() {emit httpNeworkReply(adresse);});
         connect(reply,SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(handleRequestErrors(QNetworkReply::NetworkError)));
-    }
+    }*/
 }
 
 void HttpRequest::uploadProgress(qint64 bytesSent,qint64 bytesTotal)

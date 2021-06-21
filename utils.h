@@ -42,6 +42,21 @@ public:
         return id;
     };
 
+    static int currentUserRoleId(){
+        QSettings settings;
+        settings.beginGroup("LOGIN");
+        int id = settings.value("idrole").toInt();
+        settings.endGroup();
+        return id;
+    };
+
+    static QString currentUserRoleCode(){
+        QSettings settings;
+        settings.beginGroup("LOGIN");
+        QString str = settings.value("rolecode").toString();
+        settings.endGroup();
+        return str;
+    };
 
     static QString currentUserLogin(){
         QSettings settings;
@@ -98,6 +113,36 @@ public:
         return etat;
     }
 
+    static double TVA(){
+        QSettings settings;
+        settings.beginGroup("TAXES");
+        double v = settings.value("TVA").toDouble();
+        settings.endGroup();
+        return v;
+    }
+
+    static double BIC(){
+        QSettings settings;
+        settings.beginGroup("TAXES");
+        double v = settings.value("BIC").toDouble();
+        settings.endGroup();
+        return v;
+    }
+
+    static double RETN(){
+        QSettings settings;
+        settings.beginGroup("TAXES");
+        double v = settings.value("RET_N").toDouble();
+        settings.endGroup();
+        return v;
+    }
+    static double RETI(){
+        QSettings settings;
+        settings.beginGroup("TAXES");
+        double v = settings.value("RET_I").toDouble();
+        settings.endGroup();
+        return v;
+    }
     static QString dateFormat(const QString &date,const QString &from = "yyyy-MM-dd",const QString &to = "dd/MM/yyyy"){
         return QDate::fromString(date,from).toString(to);
     }

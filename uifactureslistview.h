@@ -22,10 +22,12 @@ public:
     explicit UIFacturesListView(QWidget *parent = nullptr);
     ~UIFacturesListView();
 
+    int getStatutBL();
 private slots:
     void on_facturesLineEdit_textChanged(const QString &arg1);
     void httpResponse(QMap<QString, QByteArray> response) override;
-
+    void slotValider(const QModelIndex &index);
+    void slotRejeter(const QModelIndex &index);
     void on_tableView_clicked(const QModelIndex &index);
 
 private:

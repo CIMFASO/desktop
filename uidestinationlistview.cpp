@@ -124,5 +124,5 @@ void UIDestinationListView::on_filtreLineEdit_textChanged(const QString &arg1)
 {
     sortModel->setFilterKeyColumn(1);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    sortModel->setFilterRegExp(arg1);
+    sortModel->setFilterRegularExpression(arg1);
 }

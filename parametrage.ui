@@ -1,44 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Securite</class>
- <widget class="QDialog" name="Securite">
+ <class>Parametrage</class>
+ <widget class="QDialog" name="Parametrage">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>787</width>
-    <height>482</height>
+    <width>960</width>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Securité</string>
+   <string>Paramétrage</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
-    <number>3</number>
+    <number>5</number>
    </property>
    <property name="topMargin">
-    <number>3</number>
+    <number>5</number>
    </property>
    <property name="rightMargin">
-    <number>3</number>
+    <number>5</number>
    </property>
    <property name="bottomMargin">
-    <number>3</number>
+    <number>5</number>
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabUtilisateurs">
+     <widget class="QWidget" name="tabTransporteurs">
       <attribute name="title">
-       <string>Utilisateurs</string>
+       <string>Transporteurs</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="spacing">
-        <number>2</number>
-       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -53,36 +50,49 @@
        </property>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabGroupes">
+     <widget class="QWidget" name="tabDestination">
+      <attribute name="title">
+       <string>Destinations</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabTaxes">
+      <attribute name="title">
+       <string>Taxes</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tablGroupesUtilisateurs">
       <attribute name="title">
        <string>Groupes Utilisateurs</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="spacing">
-        <number>2</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabDroits">
-      <attribute name="title">
-       <string>Droits d'accès</string>
-      </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <property name="spacing">
-        <number>2</number>
-       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="leftMargin">
         <number>0</number>
        </property>

@@ -46,12 +46,13 @@ void Login::httpResponse(QMap<QString, QByteArray> response)
             QSettings settings;
             settings.beginGroup("LOGIN");
             settings.setValue("iduser",object["iduser"].toString().toInt());
+            settings.setValue("idrole",object["idrole"].toString().toInt());
             settings.setValue("nom",object["nom"].toString());
+            settings.setValue("rolecode",object["rolecode"].toString());
             settings.setValue("prenom",object["prenom"].toString());
             settings.setValue("login",object["login"].toString());
             settings.endGroup();
-            //selectUserAccessRules();
-            this->accept();
+            selectUserAccessRules();
         }else if(result == "mauvais"){
             ui->loginButton->setText("Connexion");
             ui->passwordEdit->clear();
@@ -70,16 +71,16 @@ void Login::httpResponse(QMap<QString, QByteArray> response)
         for (int i = 0; i < array.size(); ++i) {
             QJsonObject obj = array.at(i).toObject();
             Model::Module module;
-            module.setIdModule(obj["idmodule"].toInt());
+            module.setIdModule(obj["IDMODULE"].toString().toInt());
             Model::DetailsModule detail;
-            detail.setIdDetail(obj["iddetailsmodule"].toInt());
+            detail.setIdDetail(obj["IDDETAILSMODULE"].toString().toInt());
             Model::Role role;
-            role.setIdRole(obj["idrole"].toInt());
+            role.setIdRole(obj["IDROLE"].toString().toInt());
             Model::AccessRule rule;
             rule.setRole(role);
             rule.setModule(module);
             rule.setDetailModule(detail);
-            rule.setAccess(obj["access"].toBool());
+            rule.setAccess(obj["ACCESS"].toString().toInt() == 1 ? true : false);
             CheckAccessUtil::addAccessRule(rule);
         }      
     }
@@ -93,14 +94,14 @@ void Login::httpResponse(QMap<QString, QByteArray> response)
             Model::UserRoles uRole;
             Model::Role role;
             Model::User user;
-            role.setIdRole(obj["idrole"].toInt());
-            role.setCode(obj["code"].toString());
-            role.setLibelle(obj["libelle"].toString());
-            user.setIdUser(obj["iduser"].toInt());
-            user.setNom(obj["nom"].toString());
-            user.setLogin(obj["login"].toString());
-            user.setPrenom(obj["prenom"].toString());
-            user.setTelephone(obj["telephone"].toString());
+            role.setIdRole(obj["IDROLE"].toString().toInt());
+            role.setCode(obj["CODE"].toString());
+            role.setLibelle(obj["LIBELLE"].toString());
+            user.setIdUser(obj["ID_USER"].toString().toInt());
+            user.setNom(obj["NOM_USER"].toString());
+            user.setLogin(obj["LOGIN"].toString());
+            user.setPrenom(obj["PRENOM_USER"].toString());
+            user.setTelephone(obj["TELEPHONE"].toString());
             uRole.setRole(role);
             uRole.setUser(user);
             CheckAccessUtil::addUserRole(uRole);

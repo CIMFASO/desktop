@@ -9,12 +9,13 @@
 #include "utils/tableviewdata.h"
 #include "utils/waitingspinnerwidget.h"
 #include <QSortFilterProxyModel>
+#include "models/taxe.h"
 
 namespace Ui {
 class UITaxesListView;
 }
 
-class UITaxesListView : public QDialog,public HandleData<Model::Transporteur>
+class UITaxesListView : public QDialog,public HandleData<Model::Taxe>
 {
     Q_OBJECT
 
@@ -22,6 +23,8 @@ public:
     explicit UITaxesListView(QWidget *parent = nullptr);
     ~UITaxesListView();
 
+public slots:
+    void on_searchLineEdit_textChanged(const QString &arg1);
 private slots:
     void httpResponse(QMap<QString, QByteArray> response) override;
     void slotUpdate(const QModelIndex &index) override;

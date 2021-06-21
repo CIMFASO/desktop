@@ -37,7 +37,7 @@ void Taxe::setTaux(double value)
 QUrlQuery Model::Taxe::toUrlQuery() const
 {
     QUrlQuery query;
-    query.addQueryItem("idtaxe",QString::number(idTaxe));
+    query.addQueryItem("id",QString::number(idTaxe));
     query.addQueryItem("libelle",libelle);
     query.addQueryItem("taux",QString::number(taux));
     return query;

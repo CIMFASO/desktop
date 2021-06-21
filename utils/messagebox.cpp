@@ -17,20 +17,24 @@ void MessageBox::error(QWidget *parent)
 
 bool MessageBox::warning(QWidget *parent,QString message)
 {
-    return QMessageBox::question(parent,"Attention",message,QMessageBox::Yes|QMessageBox::No);
+    return QMessageBox::question(parent,"Attention",message,QMessageBox::Yes|QMessageBox::No)
+            == QMessageBox::Yes ? true : false;
 }
 
 bool MessageBox::question(QWidget *parent,QString message)
 {
-    return QMessageBox::question(parent,"Confirm",message,QMessageBox::Yes|QMessageBox::No);
+    return QMessageBox::question(parent,"Confirm",message,QMessageBox::Yes|QMessageBox::No)
+            == QMessageBox::Yes ? true : false;
 }
 
 bool MessageBox::confirmDelete(QWidget *parent, QString message)
 {
-    return QMessageBox::warning(parent,"Attention",message,QMessageBox::Yes|QMessageBox::No);
+    return QMessageBox::warning(parent,"Attention",message,QMessageBox::Yes|QMessageBox::No)
+            == QMessageBox::Yes ? true : false;
 }
 
 bool MessageBox::confirmUpdate(QWidget *parent, QString message)
 {
-    return QMessageBox::question(parent,"Confirm",message,QMessageBox::Yes|QMessageBox::No);
+    return QMessageBox::question(parent,"Confirm",message,QMessageBox::Yes|QMessageBox::No)
+            == QMessageBox::Yes ? true : false;
 }

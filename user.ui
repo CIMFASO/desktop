@@ -47,7 +47,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="prenomsLabel">
          <property name="text">
-          <string>Prénoms</string>
+          <string>Prenoms</string>
          </property>
         </widget>
        </item>

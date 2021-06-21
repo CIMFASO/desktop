@@ -131,7 +131,7 @@ void UITransporteurListView::on_newButton_clicked()
 
 void UITransporteurListView::on_filtreLineEdit_textChanged(const QString &arg1)
 {
-    sortModel->setFilterKeyColumn(1);
+    sortModel->setFilterKeyColumn(2);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    sortModel->setFilterRegExp(arg1);
+    sortModel->setFilterRegularExpression(arg1);
 }

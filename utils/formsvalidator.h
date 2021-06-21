@@ -2,11 +2,11 @@
 #define FORMSVALIDATOR_H
 
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QLineEdit>
 #include <QIntValidator>
 #include <QDoubleValidator>
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionValidator>

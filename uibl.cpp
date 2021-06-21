@@ -1,6 +1,7 @@
 #include "uibl.h"
 #include "ui_uibl.h"
 #include "utils/formsvalidator.h"
+#include "utils/prixformat.h"
 
 UIBL::UIBL(QWidget *parent) :
     QDialog(parent),
@@ -11,6 +12,10 @@ UIBL::UIBL(QWidget *parent) :
     delegate = new CustomDelegate(ui->tableView);
     sortModel = new QSortFilterProxyModel(this);
     modelTransporteur = new CustomListModel<Model::Transporteur>();
+    lineEditDelegate = new LineEditDelegate(this);
+
+    lineEditDelegate->setValidator(new QDoubleValidator(0,99999999999,0));
+    ui->tableView->setItemDelegateForColumn(6,lineEditDelegate);
 
     ui->tableView->setItemDelegate(delegate);
     sortModel->setSourceModel(model);
@@ -21,16 +26,31 @@ UIBL::UIBL(QWidget *parent) :
     crud->setUpdUrl("upd_bl.php");
     crud->setSelUrl("sel_bl.php");
 
+    crud->query("sel_taxe.php");
+
     delegate->setDelBtnVisible(false);
     delegate->setUpdBtnVisible(false);
     delegate->getDelBtn()->setVisible(false);
     delegate->getUpdBtn()->setVisible(false);
 
-    crud->_select();
+    completer    = new QCompleter(this);
+    completer->setModel(modelTransporteur);
+    completer->setMaxVisibleItems(30);
+    completer->setCompletionRole(Qt::DisplayRole);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->nomTransporteurLineEdit->setCompleter(completer);
 
-    ui->transporteurComboBox->setModel(modelTransporteur);
+    QObject::connect(completer, QOverload<const QModelIndex &>::of(&QCompleter::highlighted),[=](const QModelIndex &i){
+        completerIndex = i;
+        currentTransporteur = modelTransporteur->getById(completerIndex.data(Qt::UserRole).toInt());
+    });
+
+    //crud->_select();
+
     crud->query("sel_transporteur.php");
 
+    QObject::connect(lineEditDelegate,&LineEditDelegate::dataChanged,this,&UIBL::slotMontantChanged);
     connect(delegate,&CustomDelegate::delButtonClicked,this,&UIBL::slotDelete);
     connect(delegate,&CustomDelegate::updButtonClicked,this,&UIBL::slotUpdate);
     connect(crud->getHttpObject(),&HttpRequest::requestSuccess,this,&UIBL::httpResponse);
@@ -42,18 +62,53 @@ UIBL::~UIBL()
     delete modelTransporteur;
 }
 
+void UIBL::afficherTotaux()
+{
+    ui->totalLabel2->setText("TOTAL BRUT : <b style=color:yellow>" +PrixFormat::format(montantBrut)+ "</b> FCFA");
+    ui->totalLabel1->setText("RETENUE("+QString::number(Utils::RETN()*100)+"%) : <b style=color:yellow>"+PrixFormat::format(retenue)+ "</b> FCFA");
+    ui->totalLabel->setText("NET A PAYER : <b style=color:yellow>" +PrixFormat::format(netAPayer)+ "</b>  FCFA");
+}
+
+void UIBL::calculerMontant()
+{
+    retenue = qRound(montantBrut * Utils::RETN()* (currentTransporteur.getRetNat() ? 1 : 0));
+    tva = qRound(montantBrut * Utils::TVA()* (currentTransporteur.getTva() ? 1 : 0));
+    bic = qRound(montantBrut * Utils::BIC()* (currentTransporteur.getBic() ? 1 : 0));
+    reteInt = qRound(montantBrut * Utils::RETI()* (currentTransporteur.getRetInt() ? 1 : 0));
+    netAPayer = montantBrut - retenue - tva - bic - reteInt;
+}
+
 void UIBL::httpResponse(QMap<QString, QByteArray> response)
 {
-    if(response.firstKey().contains(Utils::server()+"add_facture.php"))
+    if(response.firstKey().contains(Utils::server()+"add_facture.php")
+            || response.firstKey().contains(Utils::server()+"upd_montant_bl.php"))
     {
         QJsonObject object = QJsonDocument::fromJson(response.first()).object();
         QString result = object["Response"].toString();
         if(result == "Ok"){
             MessageBox::success(this);
-            crud->_select();
+            on_nomTransporteurLineEdit_textChanged(ui->nomTransporteurLineEdit->text().trimmed());
         }else{
             MessageBox::error(this);
         }
+    }
+
+    if(response.firstKey().contains(Utils::server()+"sel_taxe.php")){
+        QJsonArray array = QJsonDocument::fromJson(response.first()).array();
+        QSettings s;
+        s.beginGroup("TAXES");
+        for (int i = 0; i < array.size(); ++i) {
+            QJsonObject obj = array.at(i).toObject();
+            if(obj["LIBELLE"].toString() == "TVA")
+                s.setValue("TVA",obj["TAUX"].toString().toDouble());
+            else if(obj["LIBELLE"].toString() == "BIC")
+                s.setValue("BIC",obj["TAUX"].toString().toDouble());
+            else if(obj["LIBELLE"].toString() == "RET N.")
+                s.setValue("RET_N",obj["TAUX"].toString().toDouble());
+            else if(obj["LIBELLE"].toString() == "RET I.")
+                s.setValue("RET_I",obj["TAUX"].toString().toDouble());
+        }
+        s.endGroup();
     }
 
     if(response.firstKey()== Utils::server()+"add_check_bl.php?num="+numBL){
@@ -61,6 +116,9 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
         QString result = object["Response"].toString();
         if(result == "Ok"){
             model->item(selectedIndex.row(),7)->setCheckState(Qt::Checked);
+            montantBrut += tarif.toDouble();
+            calculerMontant();
+            afficherTotaux();
         }else{
             model->item(selectedIndex.row(),7)->setCheckState(Qt::Unchecked);
         }
@@ -72,6 +130,9 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
         if(result == "Ok"){
             //montantHT  -= selectedIndex.sibling(selectedIndex.row(),6).data().toString().trimmed().remove(" ").toDouble();
             model->item(selectedIndex.row(),7)->setCheckState(Qt::Unchecked);
+            montantBrut -= tarif.toDouble();
+            calculerMontant();
+            afficherTotaux();
         }else{
             model->item(selectedIndex.row(),7)->setCheckState(Qt::Checked);
         }
@@ -81,18 +142,16 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
 
         QJsonArray array = QJsonDocument::fromJson(response.first()).array();
 
-        Model::Transporteur t;
-        t.setIdTransp(0);
-        t.setCode("");
-        t.setNom("Choisissez un transporteur");
-        modelTransporteur->append(t);
-
         for (int i = 0; i < array.size(); ++i) {
             QJsonObject obj = array.at(i).toObject();
             Model::Transporteur t;
-            t.setIdTransp(obj["ID_TRANSPORTEUR"].toInt());
+            t.setIdTransp(obj["ID_TRANSPORTEUR"].toString().toInt());
             t.setCode(obj["CODE_TRANSPORTEUR"].toString());
             t.setNom(obj["NOM_TRANSPORTEUR"].toString());
+            t.setTva(obj["TVA"].toString().toInt() == 1 ? true : false);
+            t.setBic(obj["BIC"].toString().toInt() == 1 ? true : false);
+            t.setRetInt(obj["RET_I"].toString().toInt() == 1 ? true : false);
+            t.setRetNat(obj["RET_N"].toString().toInt() == 1 ? true : false);
             modelTransporteur->append(t);
         }
     }
@@ -100,6 +159,13 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
     if(response.firstKey().contains(crud->getSelUrl())){
         model->clear();
         delegate->setCustomColumn(8);
+        montantBrut = retenue = netAPayer = tva = bic = reteInt =  0;
+
+        if(ui->nomTransporteurLineEdit->text().trimmed().contains("PARTICULIER",Qt::CaseInsensitive)){
+            ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
+        }else{
+            ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        }
 
         QJsonArray array = QJsonDocument::fromJson(response.first()).array();
         QStringList headers = {"N° BL","DATE BL","PRODUIT","POIDS","TRANSPORTEUR","DESTINATION","MONTANT BL","STATUT","ACTIONS"};
@@ -111,14 +177,23 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
             items << obj["NUM_BL"].toString()
                   << Utils::dateFormat(obj["DATE_BL"].toString())
                   << obj["PRODUIT"].toString()
-                  << QString::number(obj["POIDS"].toDouble())
-                  << obj["CODE_TRANSPORTEUR"].toString()
+                  << QString::number(obj["QUANTITE"].toString().toDouble())
+                  << obj["NOM_TRANSPORTEUR"].toString()
                   << obj["NOM_LOCALITE"].toString()
-                  << QString::number(obj["MONTANT"].toDouble())
+                  << QString::number(obj["MONTANT_BL"].toString().toDouble())
                   << (obj["STATUT_BL"].toString() == "1" ? "true" : "false")// 1 = En traitement,0 = Non traités
                   << "";
-           data.append(items);
+
+            if(obj["STATUT_BL"].toString() == "1"){
+                montantBrut += obj["MONTANT_BL"].toString().toDouble();
+            }
+
+            data.append(items);
         }
+
+        calculerMontant();
+        afficherTotaux();
+
         if(data.isEmpty()){
             if(spinner->isSpinning())
                 spinner->stop();
@@ -153,8 +228,8 @@ void UIBL::on_soumettreButton_clicked()
     if(FormsValidator::validate()){
         int r = QMessageBox::question(this,"Confirmation","Etes vous sûr de vouloir continuer ?",QMessageBox::Yes|QMessageBox::No);
         if(r == QMessageBox::Yes){
-            crud->query("add_facture.php?code="+modelTransporteur->at(ui->transporteurComboBox->currentIndex()).getCode()+
-                        "&montant=0&iduser="+QString::number(Utils::currentUserId())+"&num="+ui->numFactureClientLineEdit->text().trimmed());
+            crud->query("add_facture.php?code="+modelTransporteur->getByLabel(completerIndex.data().toString()).getCode()+
+                        "&montant="+QString::number(netAPayer)+"&iduser="+QString::number(Utils::currentUserId())+"&num="+ui->numFactureClientLineEdit->text().trimmed());
         }
     }else{
         FormsValidator::showErrors();
@@ -165,7 +240,7 @@ void UIBL::on_searchLineEdit_textChanged(const QString &arg1)
 {
     sortModel->setFilterKeyColumn(0);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    sortModel->setFilterRegExp(arg1);
+    sortModel->setFilterRegularExpression(arg1);
 }
 
 void UIBL::on_transporteurComboBox_currentIndexChanged(int index)
@@ -190,12 +265,31 @@ void UIBL::slotCheckBL(const QModelIndex &index)
 
 void UIBL::on_tableView_clicked(const QModelIndex &index)
 {
+    tarif = index.sibling(index.row(),6).data();
+
     if(index.column() == 7){
         slotCheckBL(index);
+    }
+}
+
+void UIBL::slotMontantChanged(const QModelIndex &index, QString value)
+{
+    int r = QMessageBox::warning(this,"Attention.","Êtes-vous sûr de vouloir modifier le montant de ce bl ?",QMessageBox::Yes|QMessageBox::No);
+    if(r == QMessageBox::Yes){
+        QString id = index.sibling(index.row(),0).data().toString();
+        crud->query("upd_montant_bl.php?num="+id+"&montant="+QString::number(value.trimmed().toDouble()));
     }
 }
 
 void UIBL::on_numFactureClientLineEdit_textChanged(const QString &arg1)
 {
 
+}
+
+void UIBL::on_nomTransporteurLineEdit_textChanged(const QString &arg1)
+{
+    if(arg1.trimmed().isEmpty())
+        crud->_select();
+    else
+        crud->query("sel_bl.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
 }

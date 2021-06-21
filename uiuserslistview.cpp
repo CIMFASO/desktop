@@ -20,7 +20,7 @@ UIUsersListview::UIUsersListview(QWidget *parent) :
     crud->setAddUrl("add_user.php");
     crud->setDelUrl("del_user.php");
     crud->setUpdUrl("upd_user.php");
-    crud->setSelUrl("sel_users.php");
+    crud->setSelUrl("sel_user.php");
 
     crud->_select();
 
@@ -52,17 +52,18 @@ void UIUsersListview::httpResponse(QMap<QString, QByteArray> response)
 
     if(response.firstKey().contains(crud->getSelUrl())){
         model->clear();
-        delegate->setCustomColumn(5);
+        delegate->setCustomColumn(6);
 
         QJsonArray array = QJsonDocument::fromJson(response.first()).array();
-        QStringList headers = {"ID","NOM","LOGIN","EMAIL","TELEPHONE","ACTIONS"};
+        QStringList headers = {"ID","NOM","PRENOMS","LOGIN","EMAIL","TELEPHONE","ACTIONS"};
 
         QList<QStringList> data;
         for (int i = 0; i < array.size(); ++i) {
             QJsonObject obj = array.at(i).toObject();
             QStringList items;
-            items << QString::number(obj["ID"].toInt())
+            items << QString::number(obj["ID_USER"].toString().toInt())
                   << obj["NOM_USER"].toString()
+                  << obj["PRENOM_USER"].toString()
                   << obj["LOGIN"].toString()
                   << obj["MAIL"].toString()
                   << obj["TELEPHONE"].toString()
@@ -88,8 +89,10 @@ void UIUsersListview::slotUpdate(const QModelIndex &index)
     Model::User m;
     m.setIdUser(index.sibling(index.row(),0).data().toInt());
     m.setNom(index.sibling(index.row(),1).data().toString());
-    m.setEmail(index.sibling(index.row(),3).data().toString());
-    m.setTelephone(index.sibling(index.row(),4).data().toString());
+    m.setPrenom(index.sibling(index.row(),2).data().toString());
+    m.setLogin(index.sibling(index.row(),3).data().toString());
+    m.setEmail(index.sibling(index.row(),4).data().toString());
+    m.setTelephone(index.sibling(index.row(),5).data().toString());
     //m.setPassword(index.sibling(index.row(),4).data().toString());
 
     ui->setUser(m);
@@ -126,5 +129,5 @@ void UIUsersListview::on_nomLineEdit_textChanged(const QString &arg1)
 {
     sortModel->setFilterKeyColumn(1);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    sortModel->setFilterRegExp(arg1);
+    sortModel->setFilterRegularExpression(arg1);
 }

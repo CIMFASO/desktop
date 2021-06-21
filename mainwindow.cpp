@@ -4,13 +4,20 @@
 #include "uitransporteurlistview.h"
 #include "uidestinationlistview.h"
 #include "uifactureslistview.h"
+#include "uitaxeslistview.h"
+#include "uiparametrage.h"
+#include "uistatsfactureslistview.h"
+#include "utils/checkaccessutil.h"
+#include "uisecurite.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    on_actionListe_des_B_L_triggered();
+    setWindowTitle("CIMFASO - AppGestion");
+    //on_actionListe_des_B_L_triggered();
 }
 
 MainWindow::~MainWindow()
@@ -18,17 +25,32 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::hideActions()
+{
+    Model::ModuleManager manager;
+    for(Model::UserRoles r : CheckAccessUtil::getUserRoles())
+    {
+        ui->actionListe_des_B_L->setVisible(CheckAccessUtil::isAccessAllowed(manager.getModuleById(Model::ModuleManager::ListeBL),r.getRole().getIdRole()));
+        ui->actionFactures->setVisible(CheckAccessUtil::isAccessAllowed(manager.getModuleById(Model::ModuleManager::Factures),r.getRole().getIdRole()));
+        ui->actionSecurit->setVisible(CheckAccessUtil::isAccessAllowed(manager.getModuleById(Model::ModuleManager::Securite),r.getRole().getIdRole()));
+        ui->actionEtats_Factures->setVisible(CheckAccessUtil::isAccessAllowed(manager.getModuleById(Model::ModuleManager::EtatsFactures),r.getRole().getIdRole()));
+        ui->actionParam_trage->setVisible(CheckAccessUtil::isAccessAllowed(manager.getModuleById(Model::ModuleManager::Parametrage),r.getRole().getIdRole()));
+
+        ui->actionTransporteur->setVisible(CheckAccessUtil::isAccessAllowed(manager.getDetailModuleById(Model::ModuleManager::ParametrageTransporteur),r.getRole().getIdRole()));
+        ui->actionDestination->setVisible(CheckAccessUtil::isAccessAllowed(manager.getDetailModuleById(Model::ModuleManager::ParametrageDestination),r.getRole().getIdRole()));
+        ui->actionTaxes->setVisible(CheckAccessUtil::isAccessAllowed(manager.getDetailModuleById(Model::ModuleManager::ParametrageTaxes),r.getRole().getIdRole()));
+    }
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if(Utils::isSessionOpened()){
-        int r = QMessageBox::warning(this,"Attention","Une session est actuellement ouverte. Etes vous sûr de vouloir fermer ? La session ne sera pas arrêté automatiquement!",QMessageBox::Yes|QMessageBox::No);
-       if(r == QMessageBox::Yes){
-           //CheckAccessUtil::clearAllAccessRule();
-           event->accept();
-       }else
-           event->ignore();
+    /*int r = QMessageBox::warning(this,"Attention","Une session est actuellement ouverte. Etes vous sûr de vouloir fermer ? La session ne sera pas arrêté automatiquement!",QMessageBox::Yes|QMessageBox::No);
+    if(r == QMessageBox::Yes){
+       //CheckAccessUtil::clearAllAccessRule();
+       event->accept();
     }else
-        event->accept();
+       event->ignore();*/
+    event->accept();
 }
 
 void MainWindow::showWidgetInMainLayout(QWidget *w)
@@ -99,5 +121,46 @@ void MainWindow::on_actionDestination_triggered()
 void MainWindow::on_actionFactures_triggered()
 {
     UIFacturesListView *f = new UIFacturesListView(this);
+    showWidgetInMainLayout(f);
+}
+
+void MainWindow::on_actionTaxes_triggered()
+{
+    UITaxesListView *d = new UITaxesListView(this);
+    d->setWindowTitle("Taxes");
+    d->setWindowFlag(Qt::WindowType::WindowMinMaxButtonsHint);
+    d->show();
+}
+
+void MainWindow::on_actionDeconnexion_triggered()
+{
+    int r = QMessageBox::warning(this,"Attention","Etes vous sûr de vouloir vous déconnecter ?",QMessageBox::Yes|QMessageBox::No);
+    if(r == QMessageBox::Yes){
+        CheckAccessUtil::clearUserRoles();
+        CheckAccessUtil::clearAllAccessRule();
+        emit deconnexion();
+    }
+}
+
+void MainWindow::on_actionParam_trage_triggered()
+{
+    UI::Parametrage *d = new UI::Parametrage(this);
+    d->setWindowTitle("Paramétrage");
+    d->setWindowFlag(Qt::WindowType::WindowMinMaxButtonsHint);
+    d->show();
+}
+
+void MainWindow::on_actionSecurit_triggered()
+{
+    UI::Securite *d = new UI::Securite(this);
+    d->setWindowTitle("Securité");
+    d->setWindowFlag(Qt::WindowType::WindowMinMaxButtonsHint);
+    d->show();
+}
+
+void MainWindow::on_actionEtats_Factures_triggered()
+{
+    UIStatsFacturesListView *f = new UIStatsFacturesListView(this);
+    f->setWindowTitle("Etats des factures");
     showWidgetInMainLayout(f);
 }

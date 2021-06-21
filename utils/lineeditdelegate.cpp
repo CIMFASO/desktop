@@ -3,7 +3,7 @@
 LineEditDelegate::LineEditDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    validator = new QRegExpValidator(parent);
+    validator = new QRegularExpressionValidator(parent);
 }
 
 LineEditDelegate::~LineEditDelegate()

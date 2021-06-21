@@ -28,6 +28,8 @@ private slots:
     void on_validerButton_clicked();
     void on_annulerButton_clicked();
 
+    void on_confirmationLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::UIUsers *ui;
     QString mode;

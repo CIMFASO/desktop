@@ -1,5 +1,6 @@
 #include "uifactureslistview.h"
 #include "ui_uifactureslistview.h"
+#include "utils/prixformat.h"
 
 UIFacturesListView::UIFacturesListView(QWidget *parent) :
     QDialog(parent),
@@ -17,11 +18,15 @@ UIFacturesListView::UIFacturesListView(QWidget *parent) :
     ui->tableView->setModel(sortModel);
     ui->detailsTableView->setModel(detailsModel);
 
-    crud->setSelUrl("sel_facture.php");
+    crud->setSelUrl("sel_facture.php?statut="+QString::number(getStatutBL()));
 
     crud->_select();
 
-    delegate->setBtn1Text("VALIDER");
+    if(Utils::currentUserRoleCode() == "G0004")
+        delegate->setBtn1Text("CONTROLER");
+    else
+        delegate->setBtn1Text("VALIDER");
+
     delegate->getBtn1()->setStyleSheet("background-color: green;color:white");
     delegate->setBtn2Text("REJETER");
     delegate->getBtn2()->setStyleSheet("background-color: red;color:white");
@@ -31,7 +36,8 @@ UIFacturesListView::UIFacturesListView(QWidget *parent) :
     delegate->getUpdBtn()->setVisible(false);
     delegate->getDelBtn()->setVisible(false);
 
-    //connect(delegate,&CustomDelegate::updButtonClicked,this,&UIFacturesListView::slotUpdate);
+    connect(delegate,&CustomDelegate::btn1Clicked,this,&UIFacturesListView::slotValider);
+    connect(delegate,&CustomDelegate::btn2Clicked,this,&UIFacturesListView::slotRejeter);
     connect(crud->getHttpObject(),&HttpRequest::requestSuccess,this,&UIFacturesListView::httpResponse);
 }
 
@@ -40,18 +46,31 @@ UIFacturesListView::~UIFacturesListView()
     delete ui;
 }
 
+int UIFacturesListView::getStatutBL()
+{
+    if(Utils::currentUserRoleCode() == "G0002"){
+        return 0;
+    }else if(Utils::currentUserRoleCode() == "G0003"){
+        return 1;
+    }else if(Utils::currentUserRoleCode() == "G0004"){
+        return 2;
+    }else if(Utils::currentUserRoleCode() == "G0005"){
+        return 3;
+    }else
+        return -1;//error
+}
+
 void UIFacturesListView::on_facturesLineEdit_textChanged(const QString &arg1)
 {
     sortModel->setFilterKeyColumn(0);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    sortModel->setFilterRegExp(arg1);
+    sortModel->setFilterRegularExpression(arg1);
 }
 
 void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
 {
-    /*if(response.firstKey().contains(crud->getAddUrl())
-            || response.firstKey().contains(crud->getDelUrl())
-            || response.firstKey().contains(crud->getUpdUrl()))
+    if(response.firstKey().contains(Utils::server()+"annuler_facture.php")
+            || response.firstKey().contains(Utils::server()+"valider_facture.php"))
     {
         QJsonObject object = QJsonDocument::fromJson(response.first()).object();
         QString result = object["Response"].toString();
@@ -60,8 +79,7 @@ void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
         }else{
             MessageBox::error(this);
         }
-    }*/
-
+    }
 
     if(response.firstKey().contains(crud->getSelUrl())){
         model->clear();
@@ -80,7 +98,7 @@ void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
             items << QString::number(obj["ID_FACT_TRANSP"].toString().toInt())
                   << obj["NUM_FACT_CLIENT"].toString()
                   << obj["NOM_TRANSPORTEUR"].toString()
-                  << QString::number(obj["MONTANT_FACT"].toString().toDouble())
+                  << PrixFormat::format(obj["MONTANT_FACT"].toString().toDouble())
                   << Utils::dateTimeFormat(obj["DATE_CREA_FACT"].toString())
                   << "";
            data.append(items);
@@ -91,7 +109,10 @@ void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
             spinner->setDataSourceIsEmpty(true);
             spinner->start();
         }else{
-            TableViewData::setData(data,{},headers,ui->tableView,model,true,false,{},QHeaderView::Stretch);
+            QMap<int,Qt::AlignmentFlag> map;
+            map.insert(3,Qt::AlignRight);
+            map.insert(4,Qt::AlignCenter);
+            TableViewData::setData(data,{},headers,ui->tableView,model,true,false,{},QHeaderView::Stretch,{},map);
             if(spinner->isSpinning())
                 spinner->stop();
         }
@@ -113,7 +134,7 @@ void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
                   << obj["PRODUIT"].toString()
                   << obj["QUANTITE"].toString()
                   << obj["NOM_LOCALITE"].toString()
-                  << QString::number(obj["MONTANT_BL"].toString().toDouble());
+                  << QString::number(obj["TARIF"].toString().toDouble());
            data.append(items);
         }
         if(data.isEmpty()){
@@ -126,6 +147,31 @@ void UIFacturesListView::httpResponse(QMap<QString, QByteArray> response)
             if(spinner2->isSpinning())
                 spinner2->stop();
         }
+    }
+}
+
+void UIFacturesListView::slotValider(const QModelIndex &index)
+{
+    QString s;
+    if(Utils::currentUserRoleCode() == "G0003")
+        s = "VALIDE";
+    else if(Utils::currentUserRoleCode() == "G0004")
+        s = "CONTROLE";
+
+    if(MessageBox::question(this)){
+        crud->query("valider_facture.php?id="+QString::number(index.sibling(index.row(),0).data().toInt())+
+                    +"&s="+s
+                    +"&statut="+QString::number(getStatutBL()+1)
+                    +"&iduser="+QString::number(Utils::currentUserId()));
+    }
+}
+
+void UIFacturesListView::slotRejeter(const QModelIndex &index)
+{
+    if(MessageBox::question(this)){
+        crud->query("annuler_facture.php?id="+QString::number(index.sibling(index.row(),0).data().toInt())+
+                    +"&statut="+QString::number(0)//0 == REJETE
+                    +"&iduser="+QString::number(Utils::currentUserId()));
     }
 }
 

@@ -1,3 +1,6 @@
+#ifndef TAXE_H
+#define TAXE_H
+
 #include <QUrlQuery>
 
 namespace Model {
@@ -21,3 +24,5 @@ private:
     double taux;
 };
 }
+
+#endif //TAXE_H

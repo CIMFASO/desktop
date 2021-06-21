@@ -26,6 +26,8 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     hLayout->addWidget(delButton);
 
     hLayout->setSpacing(3);
+
+    //hLayout->setSizeConstraint(QHBoxLayout::SizeConstraint::SetMaximumSize);
     hLayout->setMargin(0);
 
     setLayout(hLayout);

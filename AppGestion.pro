@@ -1,4 +1,4 @@
-QT       +=  core gui network widgets printsupport sql
+QT       +=  core gui network widgets printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -43,12 +43,19 @@ HEADERS += \
     uidestination.h \
     uidestinationlistview.h \
     uifactureslistview.h \
+    uiparametrage.h \
+    uiparamsroles.h \
+    uisecurite.h \
+    uistatsfactureslistview.h \
     uitaxes.h \
     uitaxeslistview.h \
     uitransporteur.h \
     uitransporteurlistview.h \
+    uiuser.h \
     uiusers.h \
     uiuserslistview.h \
+    uiusersrights.h \
+    uiusersroles.h \
     utils.h \
     utils/checkaccessutil.h \
     utils/checkboxdelegate.h \
@@ -64,6 +71,7 @@ HEADERS += \
     utils/lineeditdelegate.h \
     utils/messagebox.h \
     utils/officineutils.h \
+    utils/prixformat.h \
     utils/singleton.h \
     utils/spinboxdelegate.h \
     utils/tableviewdata.h \
@@ -93,12 +101,19 @@ SOURCES += \
     uidestination.cpp \
     uidestinationlistview.cpp \
     uifactureslistview.cpp \
+    uiparametrage.cpp \
+    uiparamsroles.cpp \
+    uisecurite.cpp \
+    uistatsfactureslistview.cpp \
     uitaxes.cpp \
     uitaxeslistview.cpp \
     uitransporteur.cpp \
     uitransporteurlistview.cpp \
+    uiuser.cpp \
     uiusers.cpp \
     uiuserslistview.cpp \
+    uiusersrights.cpp \
+    uiusersroles.cpp \
     utils/checkaccessutil.cpp \
     utils/checkboxdelegate.cpp \
     utils/comboboxdelegate.cpp \
@@ -118,17 +133,22 @@ SOURCES += \
 FORMS += \
     adressserver.ui \
     mainwindow.ui \
+    parametrage.ui \
+    paramsroles.ui \
     securite.ui \
+    signin.ui \
     uibl.ui \
     uidestination.ui \
     uidestinationlistview.ui \
     uifactureslistview.ui \
+    uistatsfactureslistview.ui \
     uitaxes.ui \
     uitaxeslistview.ui \
     uitransporteur.ui \
     uitransporteurlistview.ui \
     uiusers.ui \
     uiuserslistview.ui \
+    uiusersroles.ui \
     user.ui \
     usersrights.ui
 

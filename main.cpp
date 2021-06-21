@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
     QObject::connect(&w,&OxygenMain::deconnexionClicked,&login,&Login::show);*/
 
     MainWindow w;
-    Login login;
+    Login l;
 
-    QObject::connect(&login,SIGNAL(accepted()),&login,SLOT(hide()));
-    QObject::connect(&login,&Login::accepted,&w,&MainWindow::showMaximized);
-    //QObject::connect(&login,SIGNAL(rulesLoaded()),&w,SLOT(hideActions()));
-    //QObject::connect(&w,&MainWindow::deconnexionClicked,&w,&MainWindow::hide);
-    //QObject::connect(&w,&MainWindow::deconnexionClicked,&login,&Login::show);
+    QObject::connect(&l,&Login::accepted,&l,&Login::hide);
+    QObject::connect(&l,&Login::accepted,&w,&MainWindow::showMaximized);
+    QObject::connect(&l,&Login::rulesLoaded,&w,&MainWindow::hideActions);
+    QObject::connect(&w,&MainWindow::deconnexion,&w,&MainWindow::hide);
+    QObject::connect(&w,&MainWindow::deconnexion,&l,&Login::show);
 
     QSettings settings;
 
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
         w.setStyleSheet(style);
     }
 
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir dir(path);
     if(!dir.exists())
         dir.mkpath(path);
@@ -97,6 +97,6 @@ int main(int argc, char *argv[])
     QTextStream out(&file);
     out << "---------------------APPGESTION LOG FILE------------------" << "\n\n";
 
-    login.show();
+    l.show();
     return a.exec();
 }

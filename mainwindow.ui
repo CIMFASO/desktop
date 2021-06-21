@@ -14,6 +14,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">#centralwidget{
+	border-image: url(:/images/cimfaso);
+}</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">
      <number>3</number>
@@ -40,16 +45,18 @@
    </property>
    <widget class="QMenu" name="menuOutils">
     <property name="title">
-     <string>Outils</string>
+     <string>Menus</string>
     </property>
     <addaction name="actionListe_des_B_L"/>
     <addaction name="actionFactures"/>
-    <addaction name="actionTaille_de_police"/>
+    <addaction name="actionSecurit"/>
+    <addaction name="actionEtats_Factures"/>
    </widget>
    <widget class="QMenu" name="menuAide">
     <property name="title">
      <string>Aide</string>
     </property>
+    <addaction name="actionA_Propos"/>
    </widget>
    <widget class="QMenu" name="menuParam_trage">
     <property name="title">
@@ -57,14 +64,26 @@
     </property>
     <addaction name="actionTransporteur"/>
     <addaction name="actionDestination"/>
+    <addaction name="actionTaxes"/>
+   </widget>
+   <widget class="QMenu" name="menuAutres">
+    <property name="title">
+     <string>Autres</string>
+    </property>
+    <addaction name="actionTaille_de_police"/>
+    <addaction name="actionDeconnexion"/>
    </widget>
    <addaction name="menuOutils"/>
    <addaction name="menuParam_trage"/>
+   <addaction name="menuAutres"/>
    <addaction name="menuAide"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -73,8 +92,17 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionListe_des_B_L"/>
+   <addaction name="actionFactures"/>
+   <addaction name="actionEtats_Factures"/>
+   <addaction name="actionParam_trage"/>
+   <addaction name="actionSecurit"/>
+   <addaction name="actionDeconnexion"/>
   </widget>
   <action name="actionListe_des_B_L">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/bl.png</normaloff>:/images/bl.png</iconset>
+   </property>
    <property name="text">
     <string>Liste des B.L</string>
    </property>
@@ -95,11 +123,63 @@
    </property>
   </action>
   <action name="actionFactures">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/bll2.png</normaloff>:/images/bll2.png</iconset>
+   </property>
    <property name="text">
     <string>Factures</string>
    </property>
   </action>
+  <action name="actionTaxes">
+   <property name="text">
+    <string>Taxes</string>
+   </property>
+  </action>
+  <action name="actionA_Propos">
+   <property name="text">
+    <string>A Propos</string>
+   </property>
+  </action>
+  <action name="actionSecurit">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/security.png</normaloff>:/images/security.png</iconset>
+   </property>
+   <property name="text">
+    <string>Securité</string>
+   </property>
+  </action>
+  <action name="actionDeconnexion">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/deconnexion.png</normaloff>:/images/deconnexion.png</iconset>
+   </property>
+   <property name="text">
+    <string>Déconnexion</string>
+   </property>
+  </action>
+  <action name="actionParam_trage">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/setting_icon.png</normaloff>:/images/setting_icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paramétrage</string>
+   </property>
+  </action>
+  <action name="actionEtats_Factures">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/trend.png</normaloff>:/images/trend.png</iconset>
+   </property>
+   <property name="text">
+    <string>Etats Factures</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="ressources/images.qrc"/>
+ </resources>
  <connections/>
 </ui>

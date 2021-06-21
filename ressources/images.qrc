@@ -32,5 +32,11 @@
         <file>images/trend.png</file>
         <file>images/users.png</file>
         <file>images/users_rights.png</file>
+        <file>images/list.png</file>
+        <file>images/order.png</file>
+        <file>images/bl.png</file>
+        <file>images/bll2.png</file>
+        <file>images/facture.png</file>
+        <file>images/cimfaso.png</file>
     </qresource>
 </RCC>

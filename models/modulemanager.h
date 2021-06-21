@@ -33,175 +33,35 @@ public:
     void setListDetailModule(const QList<DetailsModule *> &value);
 
     enum Modules{
-        Accceuil = 1,
-        Medecin,
-        Hospitalisation,
-        BlocOperatoire,
-        Pharmacie,
-        Encaissement,
-        Personnel,
-        Comptabilite,
-        Statistiques,
+        ListeBL = 1,
+        Factures,
         Parametrage,
         Securite,
-        Ophtalmologie
+        EtatsFactures,
     };
-    enum Acceuil{
-        AcceuilListeDesPatients = 101,
-        AcceuilAfficherListePatient ,
-        AcceuilAjouterPatient,
-        AcceuilModifierPatient,
-        AcceuilSupprimerPatient,
-        AcceuilMenuProgrammationConsultation,
-        AcceuilMenuProgrammationRendezVous,
-        AcceuilMenuProgrammationExamen,
-        AcceuilMenuProgrammationAutresActes,
-        AcceuilConfirmationRendezVous,
-        AcceuilFixerRendezVous,
-        AcceuilModifierRendezVous,
-        AcceuilSupprimerRendezVous,
-        AcceuilListerRendezVous,
-        AcceuilAjouterConsultation,
-        AcceuilModifierConsultation,
-        AcceuilSupprimerConsulation,
-        AcceuilListerConsulations,
-        AcceuilProgrammerExamen,
-        AcceuilModifierExamens,
-        AcceuilSupprimerExamens,
-        AcceuilListerExamens,
-        AcceuilVoirDetailsExamens,
-        AcceuilAjouterAutresActes,
-        AcceuilModifierAutresActes,
-        AcceuilSupprimerAutresActes,
-        AcceuilListerAutresActes
+    enum ListeBL{
+        ListeBLAfficherListe = 101
     };
 
-    enum Medecin{
-        MedecinPatient = 201,
-        MedecinConsultation,
-        MedecinAfficherListeConsultations,
-        MedecinAjouterConsultation,
-        MedecinModifierConsultation,
-        MedecinSupprimerConsultation,
-        MedecinRendezVous,
-        MedecinStatsMedecin
-    };
-
-    enum Hospitalisation{
-        HospitalisationAjouterHospi = 301,
-        HospitalisationModifierHospi,
-        HospitalisationAfficherListeHospi,
-        HospitalisationSupprimerHispi,
-        HospitalisationLibererPatient
-    };
-    enum BlocOperatoire{
-        BlocOperatoireAjouterInterverntion = 401,
-        BlocOperatoireModifierIntervention,
-        BlocOperatoireAfficherListeIntervention,
-        BlocOperatoireSupprimerIntervention,
-        BlocOperatoireBonDeCommande,
-        BlocOperatoireProtocoleDeSoins
-    };
-    enum Ophtalmologie{
-        OphtalmologieAfficherListe = 1201
-    };
-    enum Pharmacie{
-        PharmacieProduits = 501,
-        PharmacieVentes,
-        PharmacieStock,
-        PharmacieOrdonnances,
-        PharmacieBonDeCommandes,
-        PharmacieNouveauStock,
-        PharmacieValidation,
-        PharmacieInventaire,
-        PharmacieListeDesVente,
-        PharmacieRechercherFacture,
-        PharmacieEchangesDeStock
-    };
-
-    enum Encaissement{
-        EncaissementPharmacie = 601,
-        EncaissementConsultation,
-        EncaissementHospitalisation,
-        EncaissementDepotCaution,
-        EncaissementExamens,
-        EncaissementBlocOperatoire,
-        EncaissementAutresActesMedicaux,
-        EncaissementJournalEncaissement
-    };
-
-    enum Personnel{
-        PersonnelEnregistrerPersonnel = 701,
-        PersonnelModifierPersonnel,
-        PersonnelAfficherListePersonnel,
-        PersonnelSupprimerPersonnel,
-        PersonnelReceptionDossier,
-        PersonnelImprimerEtatDePaie,
-        PersonnelImprimerRegistreEmployeur,
-        PersonnelImprimerContratTravail,
-        PersonnelAccesssoireSalaire,
-        PersonnelAjouterAccessoire,
-        PersonnelAfficherListeAccessoire,
-        PersonnelPayementPersonnel
-    };
-
-    enum Comptabilite{
-        ComptabiliteSaisiesDepensesRecettes = 801,
-        ComptabiliteAjouterDepensesRecettes,
-        ComptabiliteModifierDepensesRecettes,
-        ComptabiliteSupprimerDepensesRecettes,
-        ComptabiliteAfficherListeDepensesRecettes,
-        ComptabiliteReglementFournisseur,
-        ComptabiliteBilanCompteExploitation,
-        ComptabiliteJournalEncaissement
-    };
-
-    enum Statitiques{
-        StatistiquesExamens = 901,
-        StatistiquesChirurgie,
-        StatistiquesConsultations
+    enum Factures{
+        FacturesAfficherListe = 201
     };
 
     enum Parametrage{
-        ParametrageCaisse = 1001,
-        ParametrageAjouterCaisse,
-        ParametrageModifierCaisse,
-        ParametrageSupprimerCaisse,
-        ParametrageExamen,
-        ParametrageAjouterExamen,
-        ParametrageModifierExamen,
-        ParametrageSupprimerExamen,
-        ParametrageChapitre,
-        ParametrageAjouterChapitre,
-        ParametrageModifierChapitre,
-        ParametrageSupprimerChapitre,
-        ParametrageParamGlobaux,
-        ParametrageAjouterParam,
-        ParametrageModifierParam,
-        ParametrageSupprimerParam,
-        ParametrageTarifs,
-        ParametrageAjouterTarif,
-        ParametrageModifierTarif,
-        ParametrageSupprimerTarif
+        ParametrageTransporteur = 301,
+        ParametrageDestination,
+        ParametrageTaxes,
+        ParametrageGroupesUtilisateurs
+    };
+    enum Securite{
+        SecuriteUtilisateurs = 401,
+        SecuriteGroupesUtilisateurs,
+        SecuriteDroitsAccess
     };
 
-    enum Securite{
-        SecuriteSessions = 1101,
-        SecuriteDemarrerSession,
-        SecuriteArreterSession,
-        SecuriteUtilisateurs,
-        SecuriteAjouterUtilisateur,
-        SecuriteModifierUtilisateur,
-        SecuriteSupprimerUtilisateur,
-        SecuriteListeDesUtilisateurs,
-        SecuriteGroupesUtilisateurs,
-        SecuriteAffecterGroupe,
-        SecuriteModifierAffectation,
-        SecuriteListeUtilisateurs,
-        SecuriteDroitsAccess,
-        SecuriteAffecterDroits,
-        SecuriteModifierDroits,
-        SecuriteListerGroupesUtilisateurs
+    enum EtatsFactures{
+        EtatsFacturesAfficher = 501,
+        EtatsFacturesAnnulerFacture
     };
 
 private:
