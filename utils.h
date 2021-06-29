@@ -16,7 +16,7 @@ public:
                 settings.value("host").toString()+
                 ":"+
                 settings.value("port").toString()+
-                "/app_gestion/";
+                "/appgestion/";
     };
 
     static QString logFilePath(){

@@ -55,9 +55,6 @@ int main(int argc, char *argv[])
 
     QSettings settings;
 
-    settings.setValue("host","localhost");
-    settings.setValue("port","8080");
-
     QFont initial = QFont(
         settings.value("fontFamily","Calibri").toString(),
         settings.value("fontSize",13).toInt(),

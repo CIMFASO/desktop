@@ -7,7 +7,7 @@ UI::AdressServer::AdressServer(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->portLineEdit->setEnabled(false);
+    //ui->portLineEdit->setEnabled(false);
 
     if(!settings.value("host").toString().isEmpty() && !settings.value("port").toString().isEmpty()){
 
