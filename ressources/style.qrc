@@ -210,5 +210,9 @@
     </qresource>
     <qresource prefix="/style">
         <file>style.qss</file>
+        <file>mac.qss</file>
+        <file>dark.qss</file>
+        <file>Diffnes.qss</file>
+        <file>Darkeum.qss</file>
     </qresource>
 </RCC>

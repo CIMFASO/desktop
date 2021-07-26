@@ -40,7 +40,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOutils">
@@ -51,6 +51,8 @@
     <addaction name="actionFactures"/>
     <addaction name="actionSecurit"/>
     <addaction name="actionEtats_Factures"/>
+    <addaction name="actionChargement"/>
+    <addaction name="actionAutorisation"/>
    </widget>
    <widget class="QMenu" name="menuAide">
     <property name="title">
@@ -94,6 +96,8 @@
    <addaction name="actionListe_des_B_L"/>
    <addaction name="actionFactures"/>
    <addaction name="actionEtats_Factures"/>
+   <addaction name="actionChargement"/>
+   <addaction name="actionAutorisation"/>
    <addaction name="actionParam_trage"/>
    <addaction name="actionSecurit"/>
    <addaction name="actionDeconnexion"/>
@@ -175,6 +179,16 @@
    </property>
    <property name="text">
     <string>Etats Factures</string>
+   </property>
+  </action>
+  <action name="actionChargement">
+   <property name="text">
+    <string>Chargement</string>
+   </property>
+  </action>
+  <action name="actionAutorisation">
+   <property name="text">
+    <string>Autorisation</string>
    </property>
   </action>
  </widget>

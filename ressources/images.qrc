@@ -38,5 +38,8 @@
         <file>images/bll2.png</file>
         <file>images/facture.png</file>
         <file>images/cimfaso.png</file>
+        <file>images/cimfaso-logo.png</file>
+        <file>images/cimfaso-tr.png</file>
+        <file>images/logo-cimfaso.PNG</file>
     </qresource>
 </RCC>

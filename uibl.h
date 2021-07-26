@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QCompleter>
+#include <QKeyEvent>
 #include "utils/messagebox.h"
 #include "dao/handledata.h"
 #include "models/bl.h"
@@ -29,6 +30,8 @@ public:
 public:
     void afficherTotaux();
     void calculerMontant();
+public slots:
+    void keyPressEvent(QKeyEvent *e) override;
 private slots:
     void httpResponse(QMap<QString, QByteArray> response) override;
     void slotUpdate(const QModelIndex &) override;
@@ -42,6 +45,8 @@ private slots:
     void on_numFactureClientLineEdit_textChanged(const QString &arg1);
 
     void on_nomTransporteurLineEdit_textChanged(const QString &arg1);
+
+    void on_codeTransporteurLineEdit_textChanged(const QString &arg1);
 
 signals:
     void success();

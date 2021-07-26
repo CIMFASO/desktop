@@ -9,6 +9,8 @@
 #include "uistatsfactureslistview.h"
 #include "utils/checkaccessutil.h"
 #include "uisecurite.h"
+#include "uichargementlistview.h"
+#include "uiautorisation.h"
 #include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("CIMFASO - AppGestion");
+    setWindowTitle("SYCOTRAN");
     //on_actionListe_des_B_L_triggered();
 }
 
@@ -164,3 +166,19 @@ void MainWindow::on_actionEtats_Factures_triggered()
     f->setWindowTitle("Etats des factures");
     showWidgetInMainLayout(f);
 }
+
+void MainWindow::on_actionChargement_triggered()
+{
+    UIChargementListView *f = new UIChargementListView(this);
+    f->setWindowTitle("Chargement");
+    showWidgetInMainLayout(f);
+}
+
+
+void MainWindow::on_actionAutorisation_triggered()
+{
+    UIAutorisation *f = new UIAutorisation(this);
+    f->setWindowTitle("Autorisation");
+    showWidgetInMainLayout(f);
+}
+

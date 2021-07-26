@@ -1,7 +1,7 @@
 #include "transporteur.h"
 
 namespace Model {
-Transporteur::Transporteur()
+Transporteur::Transporteur() : tva(0),bic(0),retNat(0),retInt(0)
 {
 
 }

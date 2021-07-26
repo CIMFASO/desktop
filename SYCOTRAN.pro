@@ -19,9 +19,12 @@ HEADERS += \
     adressserver.h \
     dao/crud.h \
     dao/handledata.h \
+    documents.h \
     mainwindow.h \
     models/accessrule.h \
+    models/autorisation.h \
     models/bl.h \
+    models/chargement.h \
     models/comboboxmodel.h \
     models/customlistmodel.h \
     models/customparamslistlodel.h \
@@ -38,8 +41,21 @@ HEADERS += \
     models/user.h \
     models/userroles.h \
     models/void.h \
+    print/base.h \
+    print/block.h \
+    print/code128.h \
+    print/code128item.h \
+    print/document.h \
+    print/image.h \
+    print/stackable.h \
+    print/table.h \
+    print/text.h \
+    print/wrap.h \
     signin.h \
+    uiautorisation.h \
     uibl.h \
+    uichargement.h \
+    uichargementlistview.h \
     uidestination.h \
     uidestinationlistview.h \
     uifactureslistview.h \
@@ -79,10 +95,13 @@ HEADERS += \
 
 SOURCES += \
     adressserver.cpp \
+    documents.cpp \
     mainwindow.cpp\
     main.cpp \
     models/accessrule.cpp \
+    models/autorisation.cpp \
     models/bl.cpp \
+    models/chargement.cpp \
     models/destination.cpp \
     models/detailsmodule.cpp \
     models/module.cpp \
@@ -96,8 +115,20 @@ SOURCES += \
     models/user.cpp \
     models/userroles.cpp \
     models/void.cpp \
+    print/block.cpp \
+    print/code128.cpp \
+    print/code128item.cpp \
+    print/document.cpp \
+    print/image.cpp \
+    print/stackable.cpp \
+    print/table.cpp \
+    print/text.cpp \
+    print/wrap.cpp \
     signin.cpp \
+    uiautorisation.cpp \
     uibl.cpp \
+    uichargement.cpp \
+    uichargementlistview.cpp \
     uidestination.cpp \
     uidestinationlistview.cpp \
     uifactureslistview.cpp \
@@ -137,7 +168,10 @@ FORMS += \
     paramsroles.ui \
     securite.ui \
     signin.ui \
+    uiautorisation.ui \
     uibl.ui \
+    uichargement.ui \
+    uichargementlistview.ui \
     uidestination.ui \
     uidestinationlistview.ui \
     uifactureslistview.ui \
@@ -151,6 +185,9 @@ FORMS += \
     uiusersroles.ui \
     user.ui \
     usersrights.ui
+
+
+RC_ICONS = appgestion.ico
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

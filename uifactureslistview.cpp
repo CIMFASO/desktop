@@ -22,10 +22,16 @@ UIFacturesListView::UIFacturesListView(QWidget *parent) :
 
     crud->_select();
 
-    if(Utils::currentUserRoleCode() == "G0004")
-        delegate->setBtn1Text("CONTROLER");
-    else
+    if(Utils::currentUserRoleCode() == "G0003")
         delegate->setBtn1Text("VALIDER");
+    if(Utils::currentUserRoleCode() == "G0004")
+        delegate->setBtn1Text("VALIDER DAL");
+    if(Utils::currentUserRoleCode() == "G0005")
+        delegate->setBtn1Text("VALIDER  RESP. DAL");
+    if(Utils::currentUserRoleCode() == "G0006")
+        delegate->setBtn1Text("CONTROLLER");
+    if(Utils::currentUserRoleCode() == "G0007")
+        delegate->setBtn1Text("VALIDER COMPTA");
 
     delegate->getBtn1()->setStyleSheet("background-color: green;color:white");
     delegate->setBtn2Text("REJETER");
@@ -56,6 +62,10 @@ int UIFacturesListView::getStatutBL()
         return 2;
     }else if(Utils::currentUserRoleCode() == "G0005"){
         return 3;
+    }else if(Utils::currentUserRoleCode() == "G0006"){
+        return 4;
+    }else if(Utils::currentUserRoleCode() == "G0007"){
+        return 5;
     }else
         return -1;//error
 }
@@ -156,7 +166,13 @@ void UIFacturesListView::slotValider(const QModelIndex &index)
     if(Utils::currentUserRoleCode() == "G0003")
         s = "VALIDE";
     else if(Utils::currentUserRoleCode() == "G0004")
+        s = "DAL";
+    else if(Utils::currentUserRoleCode() == "G0005")
+        s = "RDAL";
+    else if(Utils::currentUserRoleCode() == "G0006")
         s = "CONTROLE";
+    else if(Utils::currentUserRoleCode() == "G0007")
+        s = "COMPTA";
 
     if(MessageBox::question(this)){
         crud->query("valider_facture.php?id="+QString::number(index.sibling(index.row(),0).data().toInt())+

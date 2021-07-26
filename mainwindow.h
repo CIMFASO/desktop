@@ -37,6 +37,8 @@ private slots:
     void on_actionParam_trage_triggered();
     void on_actionSecurit_triggered();
     void on_actionEtats_Factures_triggered();
+    void on_actionChargement_triggered();
+    void on_actionAutorisation_triggered();
 
 signals:
     void deconnexion();

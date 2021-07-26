@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
     QCoreApplication::setOrganizationName("CIMFASO");
-    QCoreApplication::setApplicationName("AppGestion");
+    QCoreApplication::setApplicationName("SYCOTRAN");
 
     /*OxyInit init;
     init.createLogFile();
@@ -78,9 +78,9 @@ int main(int argc, char *argv[])
     QDir dir(path);
     if(!dir.exists())
         dir.mkpath(path);
-    if(!dir.exists("AppGestion"))
-        dir.mkdir("AppGestion");
-    dir.cd("AppGestion");
+    if(!dir.exists("SYCOTRAN"))
+        dir.mkdir("SYCOTRAN");
+    dir.cd("SYCOTRAN");
     path = dir.absoluteFilePath("log.txt");
     if(QFile::exists(path))
         QFile::remove(path);
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
     settings.setValue("logFilePath",path);
 
     QTextStream out(&file);
-    out << "---------------------APPGESTION LOG FILE------------------" << "\n\n";
+    out << "---------------------SYCOTRAN LOG FILE------------------" << "\n\n";
 
     l.show();
     return a.exec();

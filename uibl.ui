@@ -34,7 +34,7 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1,1,1,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1,0">
       <property name="leftMargin">
        <number>1</number>
       </property>
@@ -51,6 +51,13 @@
        <widget class="QLineEdit" name="nomTransporteurLineEdit">
         <property name="placeholderText">
          <string>Nom transporteur</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="codeTransporteurLineEdit">
+        <property name="placeholderText">
+         <string>Code Transporteur</string>
         </property>
        </widget>
       </item>
@@ -135,6 +142,26 @@
        </item>
        <item>
         <widget class="QLabel" name="totalLabel1">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="totalLabel4">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="totalLabel3">
          <property name="text">
           <string/>
          </property>
