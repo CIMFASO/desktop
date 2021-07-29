@@ -182,11 +182,19 @@
    </property>
   </action>
   <action name="actionChargement">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/facture.png</normaloff>:/images/facture.png</iconset>
+   </property>
    <property name="text">
     <string>Chargement</string>
    </property>
   </action>
   <action name="actionAutorisation">
+   <property name="icon">
+    <iconset resource="ressources/images.qrc">
+     <normaloff>:/images/order.png</normaloff>:/images/order.png</iconset>
+   </property>
    <property name="text">
     <string>Autorisation</string>
    </property>

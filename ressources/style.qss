@@ -80,7 +80,7 @@ QWidget {
   selection-color: rgba(25,35,45,255);
   font-size: 13px;
 }
-#totalLabel,#totalLabel1,#totalLabel2,#totalLabel3,#totalLabel4{
+#totalLabel,#totalLabel1,#totalLabel2,#totalLabel3,#totalLabel4,#totalLabel5,#totalLabel6{
     font-size: 16px;
     color: white;
     background-color: rgba(0,104,163,255);

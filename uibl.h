@@ -59,11 +59,11 @@ private:
     QModelIndex selectedIndex;
     QCompleter *completer;
     QModelIndex completerIndex;
-    QVariant tarif;
+    QVariant tarif,qtite;
     CustomListModel<Model::Transporteur> *modelTransporteur;
     QSortFilterProxyModel *sortModel;
     Model::Transporteur currentTransporteur;
-    double montantBrut{0},retenue{0},netAPayer{0},tva{0},bic{0},reteInt{0};
+    double montantBrut{0},retenue{0},netAPayer{0},tva{0},bic{0},reteInt{0},quantiteTotal{0};
 };
 
 #endif // UIBL_H

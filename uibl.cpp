@@ -46,7 +46,7 @@ UIBL::UIBL(QWidget *parent) :
         currentTransporteur = modelTransporteur->getById(completerIndex.data(Qt::UserRole).toInt());
     });
 
-    //crud->_select();
+    crud->_select();
 
     crud->query("sel_transporteur.php");
 
@@ -69,6 +69,7 @@ void UIBL::afficherTotaux()
     ui->totalLabel3->setText("TVA("+QString::number(Utils::TVA()*100)+"%) : <b style=color:yellow>"+PrixFormat::format(tva)+ "</b> FCFA");
     ui->totalLabel4->setText("BIC("+QString::number(Utils::BIC()*100)+"%) : <b style=color:yellow>"+PrixFormat::format(bic)+ "</b> FCFA");
     ui->totalLabel->setText("NET A PAYER : <b style=color:yellow>" +PrixFormat::format(netAPayer)+ "</b>  FCFA");
+    ui->totalLabel5->setText("QUANTITE TOTAL : <b style=color:yellow>"+PrixFormat::format(quantiteTotal/1000)+ "</b> T");
 }
 
 void UIBL::calculerMontant()
@@ -77,7 +78,7 @@ void UIBL::calculerMontant()
     tva = qRound(montantBrut * Utils::TVA()* (currentTransporteur.getTva() ? 1 : 0));
     bic = qRound(montantBrut * Utils::BIC()* (currentTransporteur.getBic() ? 1 : 0));
     reteInt = qRound(montantBrut * Utils::RETI()* (currentTransporteur.getRetInt() ? 1 : 0));
-    netAPayer = montantBrut - retenue + tva - bic /*- reteInt*/;
+    netAPayer = montantBrut - retenue + tva + bic /*- reteInt*/;
 }
 
 void UIBL::httpResponse(QMap<QString, QByteArray> response)
@@ -119,6 +120,7 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
         if(result == "Ok"){
             model->item(selectedIndex.row(),8)->setCheckState(Qt::Checked);
             montantBrut += tarif.toString().remove(" ").toDouble();
+            quantiteTotal += qtite.toDouble();
             calculerMontant();
             afficherTotaux();
         }else{
@@ -133,6 +135,7 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
             //montantHT  -= selectedIndex.sibling(selectedIndex.row(),6).data().toString().trimmed().remove(" ").toDouble();
             model->item(selectedIndex.row(),8)->setCheckState(Qt::Unchecked);
             montantBrut -= tarif.toString().remove(" ").toDouble();
+            quantiteTotal -= qtite.toDouble();
             calculerMontant();
             afficherTotaux();
         }else{
@@ -188,6 +191,7 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
 
             if(obj["STATUT_BL"].toString() == "1"){
                 montantBrut += obj["MONTANT_BL"].toString().toDouble();
+                quantiteTotal += obj["QUANTITE"].toString().toDouble();
             }
 
             data.append(items);
@@ -231,6 +235,7 @@ void UIBL::on_soumettreButton_clicked()
     if(FormsValidator::validate()){
         int r = QMessageBox::question(this,"Confirmation","Etes vous sûr de vouloir continuer ?",QMessageBox::Yes|QMessageBox::No);
         if(r == QMessageBox::Yes){
+            quantiteTotal=0;
             crud->query("add_facture.php?code="+modelTransporteur->getByLabel(completerIndex.data().toString()).getCode()+
                         "&montant="+QString::number(netAPayer)+"&iduser="+QString::number(Utils::currentUserId())+"&num="+ui->numFactureClientLineEdit->text().trimmed());
         }
@@ -269,6 +274,7 @@ void UIBL::slotCheckBL(const QModelIndex &index)
 void UIBL::on_tableView_clicked(const QModelIndex &index)
 {
     tarif = index.sibling(index.row(),7).data();
+    qtite = index.sibling(index.row(),5).data();
 
     if(index.column() == 8){
         slotCheckBL(index);
@@ -295,6 +301,7 @@ void UIBL::on_nomTransporteurLineEdit_textChanged(const QString &arg1)
         crud->_select();
     else
         crud->query("sel_bl.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
+    spinner->start();
 }
 
 void UIBL::on_codeTransporteurLineEdit_textChanged(const QString &arg1)
@@ -307,6 +314,7 @@ void UIBL::keyPressEvent(QKeyEvent *e)
     if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return){
         if(ui->codeTransporteurLineEdit->hasFocus()){
             crud->query("sel_bl.php?codeTransp="+ui->codeTransporteurLineEdit->text().trimmed());
+            spinner->start();
         }
     }
 }
