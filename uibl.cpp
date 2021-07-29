@@ -253,10 +253,7 @@ void UIBL::on_searchLineEdit_textChanged(const QString &arg1)
 
 void UIBL::on_transporteurComboBox_currentIndexChanged(int index)
 {
-    if(index <= 0)
-        crud->_select();
-    else
-        crud->query("sel_bl.php?codeTransp="+modelTransporteur->at(index).getCode());
+    crud->query("sel_bl.php?codeTransp="+modelTransporteur->at(index).getCode());
 }
 
 void UIBL::slotCheckBL(const QModelIndex &index)
@@ -297,10 +294,7 @@ void UIBL::on_numFactureClientLineEdit_textChanged(const QString &arg1)
 
 void UIBL::on_nomTransporteurLineEdit_textChanged(const QString &arg1)
 {
-    if(arg1.trimmed().isEmpty())
-        crud->_select();
-    else
-        crud->query("sel_bl.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
+    crud->query("sel_bl.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
     spinner->start();
 }
 
