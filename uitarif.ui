@@ -1,50 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UIDestination</class>
- <widget class="QDialog" name="UIDestination">
+ <class>UITarif</class>
+ <widget class="QDialog" name="UITarif">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>263</width>
-    <height>133</height>
+    <width>262</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Destination</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="nomLocaliteLabel">
+      <widget class="QLabel" name="departLabel">
        <property name="text">
-        <string>Nom Localité : </string>
+        <string>Depart : </string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="nomLocaliteLineEdit"/>
+      <widget class="QComboBox" name="departComboBox"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="tarifLabel">
+      <widget class="QLabel" name="intermLabel">
        <property name="text">
-        <string>Tarif : </string>
+        <string>Interm. : </string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="tarifLineEdit"/>
+      <widget class="QComboBox" name="intermComboBox"/>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="tarifPlateauLabel">
+      <widget class="QLabel" name="destinationLabel">
        <property name="text">
-        <string>Tarif Plateau : </string>
+        <string>Destination : </string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="tarifPlateauLineEdit"/>
+      <widget class="QComboBox" name="destinationComboBox"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="typeTranspLabel">
+       <property name="text">
+        <string>Type transp. : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="typeTranspComboBox"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="tarif1Label">
+       <property name="text">
+        <string>Tarif 1 : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="tarif1LineEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="tarif2Label">
+       <property name="text">
+        <string>Tarif 2 : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="tarif2LineEdit"/>
      </item>
     </layout>
    </item>
@@ -56,7 +86,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>0</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>

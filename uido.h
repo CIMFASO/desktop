@@ -1,5 +1,5 @@
-#ifndef UIBL_H
-#define UIBL_H
+#ifndef UIDO_H
+#define UIDO_H
 
 #include <QDialog>
 #include <QCompleter>
@@ -12,28 +12,28 @@
 #include "utils/tableviewdata.h"
 #include "models/customlistmodel.h"
 #include "utils/waitingspinnerwidget.h"
-#include "utils/comboboxdelegate.h"
 #include "utils/lineeditdelegate.h"
-#include <QStringListModel>
 #include <QSortFilterProxyModel>
 
 namespace Ui {
-class UIBL;
+class UIDO;
 }
 
-class UIBL : public QDialog,public HandleData<Model::BL>
+class UIDO : public QDialog,public HandleData<Model::BL>
 {
     Q_OBJECT
 
 public:
-    explicit UIBL(QWidget *parent = nullptr);
-    ~UIBL();
+    explicit UIDO(QWidget *parent = nullptr);
+    ~UIDO();
 
 public:
     void afficherTotaux();
     void calculerMontant();
+
 public slots:
     void keyPressEvent(QKeyEvent *e) override;
+
 private slots:
     void httpResponse(QMap<QString, QByteArray> response) override;
     void slotUpdate(const QModelIndex &) override;
@@ -44,17 +44,14 @@ private slots:
     void slotCheckBL(const QModelIndex &index);
     void on_tableView_clicked(const QModelIndex &index);
     void slotMontantChanged(const QModelIndex &index, QString value);
-    void slotTypeCamionChanged(const QString &data,const QModelIndex &index);
     void on_numFactureClientLineEdit_textChanged(const QString &arg1);
-
     void on_nomTransporteurLineEdit_textChanged(const QString &arg1);
-
     void on_codeTransporteurLineEdit_textChanged(const QString &arg1);
 
 signals:
     void success();
 private:
-    Ui::UIBL *ui;
+    Ui::UIDO *ui;
     WaitingSpinnerWidget *spinner;
     CustomDelegate *delegate;
     LineEditDelegate  *lineEditDelegate;
@@ -66,9 +63,7 @@ private:
     CustomListModel<Model::Transporteur> *modelTransporteur;
     QSortFilterProxyModel *sortModel;
     Model::Transporteur currentTransporteur;
-    ComboBoxDelegate *typeCamionDelegate;
-    QStringListModel *typeCamionModel;
-    double montant{0},montantBrut{0},retenue{0},netAPayer{0},tva{0},bic{0},reteInt{0},quantiteTotal{0};
+    double montantBrut{0},retenue{0},netAPayer{0},tva{0},bic{0},reteInt{0},quantiteTotal{0};
 };
 
-#endif // UIBL_H
+#endif // UIDO_H

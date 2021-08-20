@@ -50,10 +50,10 @@ void UIDestinationListView::httpResponse(QMap<QString, QByteArray> response)
 
     if(response.firstKey().contains(crud->getSelUrl())){
         model->clear();
-        delegate->setCustomColumn(3);
+        delegate->setCustomColumn(4);
 
         QJsonArray array = QJsonDocument::fromJson(response.first()).array();
-        QStringList headers = {"ID","NOM LOCALITE","TARIF","ACTIONS"};
+        QStringList headers = {"ID","NOM LOCALITE","TARIF","TARIF PLATEAU","ACTIONS"};
 
         QList<QStringList> data;
         for (int i = 0; i < array.size(); ++i) {
@@ -65,6 +65,7 @@ void UIDestinationListView::httpResponse(QMap<QString, QByteArray> response)
             items << QString::number(obj["ID_DEST"].toString().toInt())
                   << obj["NOM_LOCALITE"].toString()
                   << QString::number(obj["TARIF"].toString().toDouble())
+                  << QString::number(obj["TARIF_PLAT"].toString().toDouble())
                   << "";
            data.append(items);
         }
@@ -88,6 +89,7 @@ void UIDestinationListView::slotUpdate(const QModelIndex &index)
     m.setIdDest(index.sibling(index.row(),0).data().toInt());
     m.setNom(index.sibling(index.row(),1).data().toString());
     m.setTarif(index.sibling(index.row(),2).data().toDouble());
+    m.setTarifPlat(index.sibling(index.row(),3).data().toDouble());
 
     ui->setDestination(m);
     ui->setMode("Modifier");

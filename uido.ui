@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UIBL</class>
- <widget class="QDialog" name="UIBL">
+ <class>UIDO</class>
+ <widget class="QDialog" name="UIDO">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -57,14 +57,14 @@
       <item>
        <widget class="QLineEdit" name="codeTransporteurLineEdit">
         <property name="placeholderText">
-         <string>Code Transporteur</string>
+         <string>Rechercher par N° CLI/CYP</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="searchLineEdit">
         <property name="placeholderText">
-         <string>Rechercher par N° BL</string>
+         <string>Rechercher par N° DO</string>
         </property>
        </widget>
       </item>
@@ -104,7 +104,7 @@
    <item>
     <widget class="QTableView" name="tableView">
      <property name="editTriggers">
-      <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>

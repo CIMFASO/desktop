@@ -38,12 +38,16 @@ public:
 
     QUrlQuery toUrlQuery() const;
 
+    const QString &getTypeCamion() const;
+    void setTypeCamion(const QString &newTypeCamion);
+
 private:
     int id;
     QString numBL;
     QString dateBL;
     int produit;
     int quantite;
+    QString typeCamion;
     QString nomLocalite;
     QString codeTransp;
     double montantBL;

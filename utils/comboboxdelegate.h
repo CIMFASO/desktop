@@ -4,6 +4,7 @@
 #include <QStyledItemDelegate>
 #include <QAbstractItemModel>
 #include <QComboBox>
+#include <QPainter>
 
 class ComboBoxDelegate : public QStyledItemDelegate
 {
@@ -15,6 +16,7 @@ public:
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                           const QModelIndex &index) const override;
 
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model,
                       const QModelIndex &index) const override;
@@ -27,7 +29,7 @@ public:
 private:
     QAbstractItemModel *model;
 signals:
-    void dataChanged(QAbstractItemModel *model,const QModelIndex &index) const;
+    void dataChanged(const QString &data,const QModelIndex &index) const;
 };
 
 #endif // COMBOBOXDELEGATE_H

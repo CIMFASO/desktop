@@ -1,11 +1,11 @@
-#include "uibl.h"
-#include "ui_uibl.h"
+#include "uido.h"
+#include "ui_uido.h"
 #include "utils/formsvalidator.h"
 #include "utils/prixformat.h"
 
-UIBL::UIBL(QWidget *parent) :
+UIDO::UIDO(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::UIBL)
+    ui(new Ui::UIDO)
 {
     ui->setupUi(this);
     spinner = new WaitingSpinnerWidget(ui->tableView);
@@ -13,23 +13,25 @@ UIBL::UIBL(QWidget *parent) :
     sortModel = new QSortFilterProxyModel(this);
     modelTransporteur = new CustomListModel<Model::Transporteur>();
     lineEditDelegate = new LineEditDelegate(this);
-    typeCamionDelegate = new ComboBoxDelegate(this);
-    typeCamionModel = new QStringListModel({"CARROSSERIE","PLATEAU"},this);
+
     lineEditDelegate->setValidator(new QDoubleValidator(0,9999999999,0));
-    typeCamionDelegate->setModel(typeCamionModel);
-    ui->tableView->setItemDelegateForColumn(8,lineEditDelegate);
-    ui->tableView->setItemDelegateForColumn(3,typeCamionDelegate);
+    ui->tableView->setItemDelegateForColumn(7,lineEditDelegate);
 
     //ui->tableView->setItemDelegate(delegate);
     sortModel->setSourceModel(model);
     ui->tableView->setModel(sortModel);
 
-    crud->setAddUrl("add_bl.php");
-    crud->setDelUrl("del_bl.php");
-    crud->setUpdUrl("upd_bl.php");
-    crud->setSelUrl("sel_bl.php");
+    crud->setAddUrl("add_do.php");
+    crud->setDelUrl("del_do.php");
+    crud->setUpdUrl("upd_do.php");
+    crud->setSelUrl("sel_do.php");
 
     crud->query("sel_taxe.php");
+
+    /*delegate->setDelBtnVisible(false);
+    delegate->setUpdBtnVisible(false);
+    delegate->getDelBtn()->setVisible(false);
+    delegate->getUpdBtn()->setVisible(false);*/
 
     completer    = new QCompleter(this);
     completer->setModel(modelTransporteur);
@@ -48,20 +50,19 @@ UIBL::UIBL(QWidget *parent) :
 
     crud->query("sel_transporteur.php");
 
-    QObject::connect(lineEditDelegate,&LineEditDelegate::dataChanged,this,&UIBL::slotMontantChanged);
-    QObject::connect(typeCamionDelegate,&ComboBoxDelegate::dataChanged,this,&UIBL::slotTypeCamionChanged);
-    //connect(delegate,&CustomDelegate::delButtonClicked,this,&UIBL::slotDelete);
-    //connect(delegate,&CustomDelegate::updButtonClicked,this,&UIBL::slotUpdate);
-    connect(crud->getHttpObject(),&HttpRequest::requestSuccess,this,&UIBL::httpResponse);
+    QObject::connect(lineEditDelegate,&LineEditDelegate::dataChanged,this,&UIDO::slotMontantChanged);
+    //connect(delegate,&CustomDelegate::delButtonClicked,this,&UIDO::slotDelete);
+    //connect(delegate,&CustomDelegate::updButtonClicked,this,&UIDO::slotUpdate);
+    connect(crud->getHttpObject(),&HttpRequest::requestSuccess,this,&UIDO::httpResponse);
 }
 
-UIBL::~UIBL()
+UIDO::~UIDO()
 {
     delete ui;
     delete modelTransporteur;
 }
 
-void UIBL::afficherTotaux()
+void UIDO::afficherTotaux()
 {
     ui->totalLabel2->setText("TOTAL BRUT : <b style=color:yellow>" +PrixFormat::format(montantBrut)+ "</b> FCFA");
     ui->totalLabel1->setText("RETENUE("+QString::number(Utils::RETN()*100)+"%) : <b style=color:yellow>"+PrixFormat::format(retenue)+ "</b> FCFA");
@@ -71,7 +72,7 @@ void UIBL::afficherTotaux()
     ui->totalLabel5->setText("QUANTITE TOTAL : <b style=color:yellow>"+PrixFormat::format(quantiteTotal/1000)+ "</b> T");
 }
 
-void UIBL::calculerMontant()
+void UIDO::calculerMontant()
 {
     retenue = qRound(montantBrut * Utils::RETN()* (currentTransporteur.getRetNat() ? 1 : 0));
     tva = qRound(montantBrut * Utils::TVA()* (currentTransporteur.getTva() ? 1 : 0));
@@ -80,33 +81,16 @@ void UIBL::calculerMontant()
     netAPayer = montantBrut - retenue + tva + bic /*- reteInt*/;
 }
 
-void UIBL::httpResponse(QMap<QString, QByteArray> response)
+void UIDO::httpResponse(QMap<QString, QByteArray> response)
 {
-    if(response.firstKey().contains(Utils::server()+"add_facture.php")
-            || response.firstKey().contains(Utils::server()+"upd_montant_bl.php"))
+    if(response.firstKey().contains(Utils::server()+"add_facture2.php")
+            || response.firstKey().contains(Utils::server()+"upd_montant_do.php"))
     {
         QJsonObject object = QJsonDocument::fromJson(response.first()).object();
         QString result = object["Response"].toString();
         if(result == "Ok"){
             MessageBox::success(this);
             on_nomTransporteurLineEdit_textChanged(ui->nomTransporteurLineEdit->text().trimmed());
-        }else{
-            MessageBox::error(this);
-        }
-    }
-
-    if(response.firstKey().contains(Utils::server()+"upd_type_camion_bl.php"))
-    {
-        QJsonObject object = QJsonDocument::fromJson(response.first()).object();
-        QString result = object["Response"].toString();
-        if(result == "Ok"){
-            if(model->item(selectedIndex.row(),9)->checkState() == Qt::Checked){
-                montantBrut -= selectedIndex.sibling(selectedIndex.row(),8).data().toString().remove(" ").trimmed().toDouble();
-                montantBrut += montant;
-                calculerMontant();
-                afficherTotaux();
-            }
-            crud->query("sel_bl.php?codeTransp="+selectedIndex.sibling(selectedIndex.row(),1).data().toString());
         }else{
             MessageBox::error(this);
         }
@@ -134,28 +118,28 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
         QJsonObject object = QJsonDocument::fromJson(response.first()).object();
         QString result = object["Response"].toString();
         if(result == "Ok"){
-            model->item(selectedIndex.row(),9)->setCheckState(Qt::Checked);
+            model->item(selectedIndex.row(),8)->setCheckState(Qt::Checked);
             montantBrut += tarif.toString().remove(" ").toDouble();
             quantiteTotal += qtite.toDouble();
             calculerMontant();
             afficherTotaux();
         }else{
-            model->item(selectedIndex.row(),9)->setCheckState(Qt::Unchecked);
+            model->item(selectedIndex.row(),8)->setCheckState(Qt::Unchecked);
         }
     }
 
-    if(response.firstKey()== Utils::server()+"del_check_bl.php?num="+numBL){
+    if(response.firstKey()== Utils::server()+"del_check_do.php?num="+numBL){
         QJsonObject object = QJsonDocument::fromJson(response.first()).object();
         QString result = object["Response"].toString();
         if(result == "Ok"){
             //montantHT  -= selectedIndex.sibling(selectedIndex.row(),6).data().toString().trimmed().remove(" ").toDouble();
-            model->item(selectedIndex.row(),9)->setCheckState(Qt::Unchecked);
+            model->item(selectedIndex.row(),8)->setCheckState(Qt::Unchecked);
             montantBrut -= tarif.toString().remove(" ").toDouble();
             quantiteTotal -= qtite.toDouble();
             calculerMontant();
             afficherTotaux();
         }else{
-            model->item(selectedIndex.row(),9)->setCheckState(Qt::Checked);
+            model->item(selectedIndex.row(),8)->setCheckState(Qt::Checked);
         }
     }
 
@@ -180,16 +164,16 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
     if(response.firstKey().contains(crud->getSelUrl())){
         model->clear();
         //delegate->setCustomColumn(8);
-        montantBrut = retenue = netAPayer = tva = bic = reteInt = quantiteTotal =  0;
+        montantBrut = retenue = netAPayer = tva = bic = reteInt =  0;
 
-        /*if(ui->nomTransporteurLineEdit->text().trimmed().contains("PARTICULIER",Qt::CaseInsensitive)){
+        if(ui->nomTransporteurLineEdit->text().trimmed().contains("PARTICULIER",Qt::CaseInsensitive)){
             ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
         }else{
             ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        }*/
+        }
 
         QJsonArray array = QJsonDocument::fromJson(response.first()).array();
-        QStringList headers = {"N° BL","CODE TRANSPORTEUR","TRANSPORTEUR","TYPE CAMION","DATE BL","PRODUIT","POIDS","DESTINATION","MONTANT BL","STATUT","TARIF","TARIF PLATEAU"};
+        QStringList headers = {"N° BL","CODE TRANSPORTEUR","TRANSPORTEUR","DATE BL","PRODUIT","POIDS","DESTINATION","MONTANT BL","STATUT"};
 
         QList<QStringList> data;
         for (int i = 0; i < array.size(); ++i) {
@@ -198,15 +182,12 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
             items << obj["NUM_BL"].toString()
                   << obj["CODE_TRANSPORTEUR"].toString()
                   << obj["NOM_TRANSPORTEUR"].toString()
-                  << obj["TYPE_CAMION"].toString()
                   << Utils::dateFormat(obj["DATE_BL"].toString())
                   << obj["PRODUIT"].toString()
                   << QString::number(obj["QUANTITE"].toString().toDouble())
                   << obj["NOM_LOCALITE"].toString()
                   << PrixFormat::format(obj["MONTANT_BL"].toString().toDouble())
-                  << (obj["STATUT_BL"].toString() == "1" ? "true" : "false")
-                  << QString::number(obj["TARIF_PLAT"].toString().toDouble())
-                  << QString::number(obj["TARIF"].toString().toDouble());// 1 = En traitement,0 = Non traités;
+                  << (obj["STATUT_BL"].toString() == "1" ? "true" : "false");// 1 = En traitement,0 = Non traités;
 
             if(obj["STATUT_BL"].toString() == "1"){
                 montantBrut += obj["MONTANT_BL"].toString().toDouble();
@@ -226,27 +207,27 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
             spinner->start();
         }else{
             QMap<int,Qt::AlignmentFlag> map;
-            map.insert(7,Qt::AlignRight);
-            map.insert(8,Qt::AlignCenter);
+            map.insert(6,Qt::AlignRight);
+            map.insert(7,Qt::AlignCenter);
 
-            TableViewData::setData(data,{1,10,11},headers,ui->tableView,model,true,false,{},QHeaderView::Stretch,{9},map);
+            TableViewData::setData(data,{},headers,ui->tableView,model,true,false,{},QHeaderView::Stretch,{8},map);
             if(spinner->isSpinning())
                 spinner->stop();
         }
     }
 }
 
-void UIBL::slotUpdate(const QModelIndex &)
+void UIDO::slotUpdate(const QModelIndex &)
 {
 
 }
 
-void UIBL::slotDelete(const QModelIndex &)
+void UIDO::slotDelete(const QModelIndex &)
 {
 
 }
 
-void UIBL::on_soumettreButton_clicked()
+void UIDO::on_soumettreButton_clicked()
 {
     FormsValidator::clear();
     FormsValidator::registerWidget(ui->nomTransporteurLineEdit,FormsValidator::LIBELLE_50);
@@ -255,7 +236,7 @@ void UIBL::on_soumettreButton_clicked()
         int r = QMessageBox::question(this,"Confirmation","Etes vous sûr de vouloir continuer ?",QMessageBox::Yes|QMessageBox::No);
         if(r == QMessageBox::Yes){
             quantiteTotal=0;
-            crud->query("add_facture.php?code="+modelTransporteur->getByLabel(completerIndex.data().toString()).getCode()+
+            crud->query("add_facture2.php?code="+modelTransporteur->getByLabel(completerIndex.data().toString()).getCode()+
                         "&montant="+QString::number(netAPayer)+"&iduser="+QString::number(Utils::currentUserId())+"&num="+ui->numFactureClientLineEdit->text().trimmed());
         }
     }else{
@@ -263,79 +244,70 @@ void UIBL::on_soumettreButton_clicked()
     }
 }
 
-void UIBL::on_searchLineEdit_textChanged(const QString &arg1)
+void UIDO::on_searchLineEdit_textChanged(const QString &arg1)
 {
     sortModel->setFilterKeyColumn(0);
     sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     sortModel->setFilterRegularExpression(arg1);
 }
 
-void UIBL::on_transporteurComboBox_currentIndexChanged(int index)
+void UIDO::on_transporteurComboBox_currentIndexChanged(int index)
 {
-    crud->query("sel_bl.php?codeTransp="+modelTransporteur->at(index).getCode());
+    crud->query("sel_do.php?codeTransp="+modelTransporteur->at(index).getCode());
 }
 
-void UIBL::slotCheckBL(const QModelIndex &index)
+void UIDO::slotCheckBL(const QModelIndex &index)
 {
     selectedIndex = index;
     numBL = index.sibling(index.row(),0).data().toString();
 
-    if(model->item(index.row(),9)->checkState() == Qt::Checked){
-        crud->query("del_check_bl.php?num="+numBL);
+    if(model->item(index.row(),8)->checkState() == Qt::Checked){
+        crud->query("del_check_do.php?num="+numBL);
     }else{
-        crud->query("add_check_bl.php?num="+numBL);
+        crud->query("add_check_do.php?num="+numBL);
     }
 }
 
-void UIBL::on_tableView_clicked(const QModelIndex &index)
+void UIDO::on_tableView_clicked(const QModelIndex &index)
 {
-    tarif = index.sibling(index.row(),8).data();
-    qtite = index.sibling(index.row(),6).data();
+    tarif = index.sibling(index.row(),7).data();
+    qtite = index.sibling(index.row(),5).data();
 
-    if(index.column() == 9){
+    if(index.column() == 8){
         slotCheckBL(index);
     }
 }
 
-void UIBL::slotMontantChanged(const QModelIndex &index, QString value)
+void UIDO::slotMontantChanged(const QModelIndex &index, QString value)
 {
     int r = QMessageBox::warning(this,"Attention.","Êtes-vous sûr de vouloir modifier le montant de ce bl ?",QMessageBox::Yes|QMessageBox::No);
     if(r == QMessageBox::Yes){
         QString id = index.sibling(index.row(),0).data().toString();
-        crud->query("upd_montant_bl.php?num="+id+"&montant="+QString::number(value.trimmed().toDouble()));
+        crud->query("upd_montant_do.php?num="+id+"&montant="+QString::number(value.trimmed().toDouble()));
     }
 }
 
-void UIBL::slotTypeCamionChanged(const QString &data, const QModelIndex &index)
-{
-    selectedIndex = index;
-    QString id = index.sibling(index.row(),0).data().toString();
-    montant = (data == "CARROSSERIE" ? index.sibling(index.row(),11).data().toDouble()
-                                     : index.sibling(index.row(),10).data().toDouble());
-    crud->query("upd_type_camion_bl.php?num="+id+"&type="+data+"&montant="+QString::number(montant));
-}
-
-void UIBL::on_numFactureClientLineEdit_textChanged(const QString &arg1)
+void UIDO::on_numFactureClientLineEdit_textChanged(const QString &arg1)
 {
 
 }
 
-void UIBL::on_nomTransporteurLineEdit_textChanged(const QString &arg1)
+void UIDO::on_nomTransporteurLineEdit_textChanged(const QString &arg1)
 {
-    crud->query("sel_bl.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
+    crud->query("sel_do.php?codeTransp="+modelTransporteur->getByLabel(arg1).getCode());
     spinner->start();
 }
 
-void UIBL::on_codeTransporteurLineEdit_textChanged(const QString &arg1)
+void UIDO::on_codeTransporteurLineEdit_textChanged(const QString &arg1)
 {
     //crud->query("sel_bl.php?codeTransp="+arg1);
 }
 
-void UIBL::keyPressEvent(QKeyEvent *e)
+void UIDO::keyPressEvent(QKeyEvent *e)
 {
     if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return){
         if(ui->codeTransporteurLineEdit->hasFocus()){
-            crud->query("sel_bl.php?codeTransp="+ui->codeTransporteurLineEdit->text().trimmed());
+            crud->query("sel_do.php?codeTransp="+ui->codeTransporteurLineEdit->text().trimmed());
             spinner->start();
         }
     }

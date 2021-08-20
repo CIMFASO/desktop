@@ -23,10 +23,14 @@ public:
 
     QString getLabel() const override;
     int getId() const override;
+    double getTarifPlat() const;
+    void setTarifPlat(double newTarifPlat);
+
 private:
     int idDest;
     QString nom;
     double tarif;
+    double tarifPlat;
 };
 }
 #endif // DESTINATION_H

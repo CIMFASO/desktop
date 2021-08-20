@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "uibl.h"
+#include "uimenubl.h"
 #include "uitransporteurlistview.h"
 #include "uidestinationlistview.h"
 #include "uifactureslistview.h"
@@ -100,7 +100,7 @@ void MainWindow::on_actionTaille_de_police_triggered()
 
 void MainWindow::on_actionListe_des_B_L_triggered()
 {
-    UIBL *b = new UIBL(this);
+    UIMenuBL *b = new UIMenuBL(this);
     showWidgetInMainLayout(b);
 }
 

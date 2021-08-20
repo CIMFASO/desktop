@@ -13,7 +13,7 @@ UI::Parametrage::Parametrage(QWidget *parent) :
     ui->setupUi(this);
     on_tabWidget_currentChanged(0);
     Model::ModuleManager manager;
-    for(Model::UserRoles r : CheckAccessUtil::getUserRoles())
+    for(const Model::UserRoles &r : CheckAccessUtil::getUserRoles())
     {
         ui->tabWidget->setTabVisible(0,CheckAccessUtil::isAccessAllowed(manager.getDetailModuleById(Model::ModuleManager::ParametrageTransporteur),r.getRole().getIdRole()));
         ui->tabWidget->setTabVisible(1,CheckAccessUtil::isAccessAllowed(manager.getDetailModuleById(Model::ModuleManager::ParametrageDestination),r.getRole().getIdRole()));

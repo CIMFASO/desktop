@@ -7,7 +7,7 @@ ComboBoxDelegate::ComboBoxDelegate(QObject *parent)
 }
 ComboBoxDelegate::~ComboBoxDelegate()
 {
-
+    //editor = new QComboBox();
 }
 
 QWidget *ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -18,6 +18,26 @@ QWidget *ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     return editor;
 }
 
+void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    /*QComboBox *editor = new QComboBox();
+    editor->setFrame(false);
+    editor->setModel(model);
+    editor->setGeometry(option.rect);
+
+    if(option.state == QStyle::State_Selected)
+    {
+        painter->fillRect(option.rect,option.palette.highlight());
+    }
+
+    QPixmap map = editor->grab();
+    painter->setBrush(Qt::white);
+    painter->drawPixmap(option.rect.x(),option.rect.y(),map);*/
+
+    //painter->setBrush(Qt::white);
+    painter->drawText(option.rect,index.data(Qt::DisplayRole).toString(),QTextOption(Qt::AlignCenter));
+}
+
 void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QString value = index.model()->data(index, Qt::EditRole).toString();
@@ -25,12 +45,13 @@ void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
     combo->setCurrentText(value);
 }
 
-void ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+void ComboBoxDelegate::setModelData(QWidget *e, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QComboBox *combo = static_cast<QComboBox*>(editor);
+    QComboBox *combo = static_cast<QComboBox*>(e);
     QString value = combo->currentText();
+    //editor->setCurrentText(value);
     model->setData(index, value, Qt::DisplayRole);
-    emit dataChanged(model,index);
+    emit dataChanged(value,index);
 }
 
 void ComboBoxDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

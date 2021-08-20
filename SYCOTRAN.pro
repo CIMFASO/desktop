@@ -35,11 +35,14 @@ HEADERS += \
     models/parametreglobal.h \
     models/role.h \
     models/session.h \
+    models/tarif.h \
     models/taxe.h \
     models/transporteur.h \
+    models/typecamion.h \
     models/typeparametreglobal.h \
     models/user.h \
     models/userroles.h \
+    models/ville.h \
     models/void.h \
     print/base.h \
     print/block.h \
@@ -58,11 +61,17 @@ HEADERS += \
     uichargementlistview.h \
     uidestination.h \
     uidestinationlistview.h \
+    uido.h \
     uifactureslistview.h \
+    uifactureslistview2.h \
+    uimenubl.h \
     uiparametrage.h \
     uiparamsroles.h \
     uisecurite.h \
     uistatsfactureslistview.h \
+    uistatsfactureslistview2.h \
+    uitarif.h \
+    uitariflistview.h \
     uitaxes.h \
     uitaxeslistview.h \
     uitransporteur.h \
@@ -72,6 +81,8 @@ HEADERS += \
     uiuserslistview.h \
     uiusersrights.h \
     uiusersroles.h \
+    uiville.h \
+    uivillelistview.h \
     utils.h \
     utils/checkaccessutil.h \
     utils/checkboxdelegate.h \
@@ -109,11 +120,14 @@ SOURCES += \
     models/parametreglobal.cpp \
     models/role.cpp \
     models/session.cpp \
+    models/tarif.cpp \
     models/taxe.cpp \
     models/transporteur.cpp \
+    models/typecamion.cpp \
     models/typeparametreglobal.cpp \
     models/user.cpp \
     models/userroles.cpp \
+    models/ville.cpp \
     models/void.cpp \
     print/block.cpp \
     print/code128.cpp \
@@ -131,11 +145,17 @@ SOURCES += \
     uichargementlistview.cpp \
     uidestination.cpp \
     uidestinationlistview.cpp \
+    uido.cpp \
     uifactureslistview.cpp \
+    uifactureslistview2.cpp \
+    uimenubl.cpp \
     uiparametrage.cpp \
     uiparamsroles.cpp \
     uisecurite.cpp \
     uistatsfactureslistview.cpp \
+    uistatsfactureslistview2.cpp \
+    uitarif.cpp \
+    uitariflistview.cpp \
     uitaxes.cpp \
     uitaxeslistview.cpp \
     uitransporteur.cpp \
@@ -145,6 +165,8 @@ SOURCES += \
     uiuserslistview.cpp \
     uiusersrights.cpp \
     uiusersroles.cpp \
+    uiville.cpp \
+    uivillelistview.cpp \
     utils/checkaccessutil.cpp \
     utils/checkboxdelegate.cpp \
     utils/comboboxdelegate.cpp \
@@ -174,8 +196,14 @@ FORMS += \
     uichargementlistview.ui \
     uidestination.ui \
     uidestinationlistview.ui \
+    uido.ui \
     uifactureslistview.ui \
+    uifactureslistview2.ui \
+    uimenubl.ui \
     uistatsfactureslistview.ui \
+    uistatsfactureslistview2.ui \
+    uitarif.ui \
+    uitariflistview.ui \
     uitaxes.ui \
     uitaxeslistview.ui \
     uitransporteur.ui \
@@ -183,6 +211,8 @@ FORMS += \
     uiusers.ui \
     uiuserslistview.ui \
     uiusersroles.ui \
+    uiville.ui \
+    uivillelistview.ui \
     user.ui \
     usersrights.ui
 

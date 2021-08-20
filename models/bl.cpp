@@ -108,6 +108,17 @@ QUrlQuery BL::toUrlQuery() const
     query.addQueryItem("codeTransp",codeTransp);
     query.addQueryItem("montantBl",QString::number(montantBL));
     query.addQueryItem("statut",statut);
+    query.addQueryItem("typeCamion",typeCamion);
     return query;
+}
+
+const QString &BL::getTypeCamion() const
+{
+    return typeCamion;
+}
+
+void BL::setTypeCamion(const QString &newTypeCamion)
+{
+    typeCamion = newTypeCamion;
 }
 }

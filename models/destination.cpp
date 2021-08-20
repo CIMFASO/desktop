@@ -42,6 +42,7 @@ QUrlQuery Destination::toUrlQuery() const
     query.addQueryItem("id",QString::number(idDest));
     query.addQueryItem("nom",nom);
     query.addQueryItem("tarif",QString::number(tarif));
+    query.addQueryItem("tarif_plat",QString::number(tarifPlat));
     return query;
 }
 
@@ -53,5 +54,15 @@ QString Destination::getLabel() const
 int Destination::getId() const
 {
     return idDest;
+}
+
+double Destination::getTarifPlat() const
+{
+    return tarifPlat;
+}
+
+void Destination::setTarifPlat(double newTarifPlat)
+{
+    tarifPlat = newTarifPlat;
 }
 }
