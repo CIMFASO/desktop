@@ -205,8 +205,8 @@ void UIBL::httpResponse(QMap<QString, QByteArray> response)
                   << obj["NOM_LOCALITE"].toString()
                   << PrixFormat::format(obj["MONTANT_BL"].toString().toDouble())
                   << (obj["STATUT_BL"].toString() == "1" ? "true" : "false")
-                  << QString::number(obj["TARIF_PLAT"].toString().toDouble())
-                  << QString::number(obj["TARIF"].toString().toDouble());// 1 = En traitement,0 = Non traités;
+                  << QString::number(obj["TARIF_PLAT_TONNE"].toString().toDouble())
+                  << QString::number(obj["TARIF_TONNE"].toString().toDouble());// 1 = En traitement,0 = Non traités;
 
             if(obj["STATUT_BL"].toString() == "1"){
                 montantBrut += obj["MONTANT_BL"].toString().toDouble();
@@ -310,8 +310,9 @@ void UIBL::slotTypeCamionChanged(const QString &data, const QModelIndex &index)
 {
     selectedIndex = index;
     QString id = index.sibling(index.row(),0).data().toString();
-    montant = (data == "CARROSSERIE" ? index.sibling(index.row(),11).data().toDouble()
-                                     : index.sibling(index.row(),10).data().toDouble());
+    double quantite = index.sibling(index.row(),0).data().toDouble();
+    montant = (data == "CARROSSERIE" ? index.sibling(index.row(),11).data().toDouble() *quantite
+                                     : index.sibling(index.row(),10).data().toDouble() *quantite);
     crud->query("upd_type_camion_bl.php?num="+id+"&type="+data+"&montant="+QString::number(montant));
 }
 
